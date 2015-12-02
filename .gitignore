@@ -26,3 +26,5 @@
 *.exe
 *.out
 *.app
+/FX-Lib.sdf
+/FX-Lib.opensdf
