@@ -6,9 +6,9 @@
 
 const uint32_t cMaximumSymbolLength = 4096;
 
-struct CImageHelpLine64 : public IMAGEHLP_LINE64
+struct ImageHelpLine64 : public IMAGEHLP_LINE64
 {
-	CImageHelpLine64()
+	ImageHelpLine64()
 	{
 		ZeroMemory(this, sizeof(*this));
 		SizeOfStruct = sizeof(*this);
@@ -26,9 +26,9 @@ struct SymbolInfo : public SYMBOL_INFO
 	}
 };
 
-struct CImagehlpModule64 : public IMAGEHLP_MODULE64
+struct ImageHelpModule64 : public IMAGEHLP_MODULE64
 {
-	CImagehlpModule64()
+	ImageHelpModule64()
 	{
 		ZeroMemory(this, sizeof(*this));
 		SizeOfStruct = sizeof(*this);

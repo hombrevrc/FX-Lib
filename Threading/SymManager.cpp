@@ -61,7 +61,7 @@ void SymManager::GetFrame(void* address, StackFrame& frame)
 
 	frame.Address = address;
 	// get source code file name and line number
-	CImageHelpLine64 line;
+	ImageHelpLine64 line;
 	DWORD offset = 0;
 	BOOL status = SymGetLineFromAddr64(process, address64, &offset, &line);
 	if (status)
@@ -86,7 +86,7 @@ void SymManager::GetFrame(void* address, StackFrame& frame)
 		frame.FullFunctionName = buffer;
 	}
 	// get module info
-	CImagehlpModule64 module;
+	ImageHelpModule64 module;
 	status = SymGetModuleInfo64(process, address64, &module);
 	if (status)
 	{
