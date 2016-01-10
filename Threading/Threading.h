@@ -8,6 +8,7 @@
 #include "PhysicalSingleton.h"
 #include "LiteSingleton.h"
 #include "Timer.h"
+#include "StackTrace.h"
 
 
 #ifdef _WIN64

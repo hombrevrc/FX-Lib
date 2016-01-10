@@ -1,56 +1,83 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Headers">
+    <Filter Include="_Headers">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Sources">
+    <Filter Include="_Sources">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="SharedMemory">
+      <UniqueIdentifier>{250aeb61-95fd-47a7-a385-07adaaa55615}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SharedMemory\Headers">
+      <UniqueIdentifier>{c83ef4dd-1287-43cd-b05f-cad5a272801e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SharedMemory\Sources">
+      <UniqueIdentifier>{1b35c75d-2f62-41ca-b9fe-4c9b06bd0e88}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
     </ClInclude>
     <ClInclude Include="System.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
     </ClInclude>
     <ClInclude Include="Delegate.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
     </ClInclude>
     <ClInclude Include="Nullable.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
     </ClInclude>
     <ClInclude Include="Time.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
     </ClInclude>
     <ClInclude Include="Type.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
     </ClInclude>
     <ClInclude Include="TypeTraits.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
     </ClInclude>
     <ClInclude Include="Task.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
     </ClInclude>
     <ClInclude Include="TaskBase.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedMemory.h">
+      <Filter>SharedMemory\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedMemoryAccess.h">
+      <Filter>SharedMemory\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemException.h">
+      <Filter>_Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Sources</Filter>
+      <Filter>_Sources</Filter>
     </ClCompile>
     <ClCompile Include="Time.cpp">
-      <Filter>Sources</Filter>
+      <Filter>_Sources</Filter>
     </ClCompile>
     <ClCompile Include="System.cpp">
-      <Filter>Sources</Filter>
+      <Filter>_Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedMemory.cpp">
+      <Filter>SharedMemory\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedMemoryAccess.cpp">
+      <Filter>SharedMemory\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemException.cpp">
+      <Filter>_Sources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,80 +1,122 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Headers">
+    <Filter Include="_Headers">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Sources">
+    <Filter Include="_Sources">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="StackTrace">
+      <UniqueIdentifier>{57338309-5c27-4066-9815-342030baf445}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StackTrace\Headers">
+      <UniqueIdentifier>{1062ff69-a900-4747-8045-bb735cc3d7e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StackTrace\Sources">
+      <UniqueIdentifier>{893868f1-c89d-485a-bfa2-636b7dbb6b02}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
     </ClInclude>
     <ClInclude Include="Threading.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
     </ClInclude>
     <ClInclude Include="CriticalSection.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
     </ClInclude>
     <ClInclude Include="LiteSingleton.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
     </ClInclude>
     <ClInclude Include="LogicalSingleton.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
     </ClInclude>
     <ClInclude Include="Monitor.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
     </ClInclude>
     <ClInclude Include="PhysicalSingleton.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
     </ClInclude>
     <ClInclude Include="SharedExclusiveLock.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
     </ClInclude>
     <ClInclude Include="TaskWaiter.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
     </ClInclude>
     <ClInclude Include="ThreadPool.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
     </ClInclude>
     <ClInclude Include="Semaphore.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
-      <Filter>Headers</Filter>
+      <Filter>_Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Optex.h">
+      <Filter>_Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="TlsValue.h">
+      <Filter>_Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="StackTrace.h">
+      <Filter>StackTrace\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="StackTraceData.h">
+      <Filter>StackTrace\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SymManager.h">
+      <Filter>StackTrace\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="StackFrame.h">
+      <Filter>StackTrace\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SymManagerHelpers.h">
+      <Filter>StackTrace\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Sources</Filter>
+      <Filter>_Sources</Filter>
     </ClCompile>
     <ClCompile Include="ThreadPool.cpp">
-      <Filter>Sources</Filter>
+      <Filter>_Sources</Filter>
     </ClCompile>
     <ClCompile Include="CriticalSection.cpp">
-      <Filter>Sources</Filter>
+      <Filter>_Sources</Filter>
     </ClCompile>
     <ClCompile Include="LogicalSingleton.cpp">
-      <Filter>Sources</Filter>
+      <Filter>_Sources</Filter>
     </ClCompile>
     <ClCompile Include="SharedExclusiveLock.cpp">
-      <Filter>Sources</Filter>
+      <Filter>_Sources</Filter>
     </ClCompile>
     <ClCompile Include="Semaphore.cpp">
-      <Filter>Sources</Filter>
+      <Filter>_Sources</Filter>
     </ClCompile>
     <ClCompile Include="TaskWaiter.cpp">
-      <Filter>Sources</Filter>
+      <Filter>_Sources</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
-      <Filter>Sources</Filter>
+      <Filter>_Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Optex.cpp">
+      <Filter>_Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="StackTrace.cpp">
+      <Filter>StackTrace\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SymManager.cpp">
+      <Filter>StackTrace\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="StackFrame.cpp">
+      <Filter>StackTrace\Sources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

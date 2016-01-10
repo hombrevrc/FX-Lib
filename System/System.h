@@ -8,6 +8,8 @@
 #include "Delegate.h"
 #include "Time.h"
 #include "Type.h"
+#include "SystemException.h"
+#include "SharedMemory.h"
 
 #ifdef _WIN64
 

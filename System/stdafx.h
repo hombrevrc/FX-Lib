@@ -11,3 +11,7 @@
 #include <Windows.h>
 #include <stdint.h>
 #include <assert.h>
+#include <string>
+#include <atlbase.h>
+#include <exception>
+#include <sstream>
