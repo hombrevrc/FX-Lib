@@ -5,21 +5,16 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
+    <Filter Include="_Resources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
     <Filter Include="_Sources">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="SharedMemory">
-      <UniqueIdentifier>{250aeb61-95fd-47a7-a385-07adaaa55615}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SharedMemory\Headers">
-      <UniqueIdentifier>{c83ef4dd-1287-43cd-b05f-cad5a272801e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SharedMemory\Sources">
-      <UniqueIdentifier>{1b35c75d-2f62-41ca-b9fe-4c9b06bd0e88}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="_Interfaces">
-      <UniqueIdentifier>{7fb451f2-f8fc-4fc9-8bd7-24b528d7cac3}</UniqueIdentifier>
+    <Filter Include="Languages">
+      <UniqueIdentifier>{3894686d-428c-4025-9c03-99a81d885f60}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -29,37 +24,31 @@
     <ClInclude Include="targetver.h">
       <Filter>_Headers</Filter>
     </ClInclude>
-    <ClInclude Include="System.h">
+    <ClInclude Include="TypeInfo.h">
       <Filter>_Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Delegate.h">
+    <ClInclude Include="StructureInfo.h">
       <Filter>_Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Nullable.h">
+    <ClInclude Include="ClassInfo.h">
       <Filter>_Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Time.h">
+    <ClInclude Include="MethodInfo.h">
       <Filter>_Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Type.h">
+    <ClInclude Include="ParamInfo.h">
       <Filter>_Headers</Filter>
     </ClInclude>
-    <ClInclude Include="TypeTraits.h">
+    <ClInclude Include="Attributes.h">
       <Filter>_Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Task.h">
+    <ClInclude Include="MemberInfo.h">
       <Filter>_Headers</Filter>
     </ClInclude>
-    <ClInclude Include="TaskBase.h">
+    <ClInclude Include="Members.h">
       <Filter>_Headers</Filter>
     </ClInclude>
-    <ClInclude Include="SharedMemory.h">
-      <Filter>SharedMemory\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SharedMemoryAccess.h">
-      <Filter>SharedMemory\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SystemException.h">
+    <ClInclude Include="Parameters.h">
       <Filter>_Headers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -67,19 +56,34 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>_Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Time.cpp">
+    <ClCompile Include="MetaLang.cpp">
       <Filter>_Sources</Filter>
     </ClCompile>
-    <ClCompile Include="System.cpp">
+    <ClCompile Include="ClassInfo.cpp">
       <Filter>_Sources</Filter>
     </ClCompile>
-    <ClCompile Include="SharedMemory.cpp">
-      <Filter>SharedMemory\Sources</Filter>
+    <ClCompile Include="MethodInfo.cpp">
+      <Filter>_Sources</Filter>
     </ClCompile>
-    <ClCompile Include="SharedMemoryAccess.cpp">
-      <Filter>SharedMemory\Sources</Filter>
+    <ClCompile Include="ParamInfo.cpp">
+      <Filter>_Sources</Filter>
     </ClCompile>
-    <ClCompile Include="SystemException.cpp">
+    <ClCompile Include="StructureInfo.cpp">
+      <Filter>_Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeInfo.cpp">
+      <Filter>_Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Attributes.cpp">
+      <Filter>_Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Members.cpp">
+      <Filter>_Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="MemberInfo.cpp">
+      <Filter>_Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Parameters.cpp">
       <Filter>_Sources</Filter>
     </ClCompile>
   </ItemGroup>

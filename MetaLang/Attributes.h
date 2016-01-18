@@ -4,20 +4,11 @@
 
 #pragma once
 
-class StackTraceData
+class Attributes
 {
 public:
-	uint32_t FramesNumber = 0;
-	void* Frames[1024];
-
-public:
-	StackTraceData() = default;
-	StackTraceData(const uint32_t counter);
-
-public:
-	void Acquire();
-	bool Release();
+	Attributes() = default;
 
 private:
-	std::atomic<uint32_t> m_counter = 0;
+	std::unordered_map<std::string, std::string> m_attributes;
 };

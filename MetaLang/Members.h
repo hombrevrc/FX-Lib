@@ -4,20 +4,17 @@
 
 #pragma once
 
-class StackTraceData
+#include "MemberInfo.h"
+
+class Members
 {
 public:
-	uint32_t FramesNumber = 0;
-	void* Frames[1024];
+	void Add(const MemberInfo& info);
 
 public:
-	StackTraceData() = default;
-	StackTraceData(const uint32_t counter);
-
-public:
-	void Acquire();
-	bool Release();
+	const std::vector<MemberInfo>& GetMembers() const;
 
 private:
-	std::atomic<uint32_t> m_counter = 0;
+	std::unordered_set<std::string> m_names;
+	std::vector<MemberInfo> m_members;
 };

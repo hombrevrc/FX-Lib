@@ -50,3 +50,10 @@
 /Algorithms/Debug.x64
 /.vs/FX-Lib/v14
 *.ipch
+/Debug
+/MetaLang/Release.x86
+/MetaLang/Release.x64
+/MetaLang/Debug.x86
+/MetaLang/Debug.x64
+/Release
+/x64/Debug

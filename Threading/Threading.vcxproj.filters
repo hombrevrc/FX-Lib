@@ -65,12 +65,6 @@
     <ClInclude Include="TlsValue.h">
       <Filter>_Headers</Filter>
     </ClInclude>
-    <ClInclude Include="StackTrace.h">
-      <Filter>StackTrace\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="StackTraceData.h">
-      <Filter>StackTrace\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="SymManager.h">
       <Filter>StackTrace\Headers</Filter>
     </ClInclude>
@@ -78,6 +72,15 @@
       <Filter>StackTrace\Headers</Filter>
     </ClInclude>
     <ClInclude Include="SymManagerHelpers.h">
+      <Filter>StackTrace\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="StackTraceData.h">
+      <Filter>StackTrace\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ExceptionStackTrace.h">
+      <Filter>StackTrace\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="StackTrace.h">
       <Filter>StackTrace\Headers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -109,14 +112,20 @@
     <ClCompile Include="Optex.cpp">
       <Filter>_Sources</Filter>
     </ClCompile>
-    <ClCompile Include="StackTrace.cpp">
-      <Filter>StackTrace\Sources</Filter>
-    </ClCompile>
     <ClCompile Include="SymManager.cpp">
       <Filter>StackTrace\Sources</Filter>
     </ClCompile>
     <ClCompile Include="StackFrame.cpp">
       <Filter>StackTrace\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ExceptionStackTrace.cpp">
+      <Filter>StackTrace\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="StackTrace.cpp">
+      <Filter>StackTrace\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="StackTraceData.cpp">
+      <Filter>_Sources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

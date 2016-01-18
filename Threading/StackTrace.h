@@ -5,22 +5,28 @@
 #pragma once
 
 #include "StackFrame.h"
+#include "StackTraceData.h"
 
-class StackTraceData;
+class ExceptionStackTrace;
 
 class StackTrace
 {
 public:
 	StackTrace();
-	StackTrace(const StackTrace&) = delete;
-	StackTrace& operator = (const StackTrace&) = delete;
+	StackTrace(const StackTrace& stackTrace);
+	StackTrace& operator = (const StackTrace& stackTrace);
 	~StackTrace();
 
+private:
+	StackTrace(StackTraceData* pData);
+
 public:
-	const std::vector<StackFrame> GetFrames() const;
+	std::vector<StackFrame> GetFrames() const;
 
 private:
-	StackTraceData* m_data;
-};
+	StackTraceData* m_pData = nullptr;
 
+private:
+	friend class ExceptionStackTrace;
+};
 std::ostream& operator << (std::ostream& stream, const StackTrace& stackTrace);

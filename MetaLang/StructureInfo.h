@@ -4,20 +4,15 @@
 
 #pragma once
 
-class StackTraceData
+#include "TypeInfo.h"
+#include "Members.h"
+
+
+class StructureInfo
 {
 public:
-	uint32_t FramesNumber = 0;
-	void* Frames[1024];
-
-public:
-	StackTraceData() = default;
-	StackTraceData(const uint32_t counter);
-
-public:
-	void Acquire();
-	bool Release();
 
 private:
-	std::atomic<uint32_t> m_counter = 0;
+	TypeInfo m_type;
+	Members m_members;
 };

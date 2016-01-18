@@ -4,54 +4,48 @@
 
 #include "stdafx.h"
 #include "StackTrace.h"
-#include "TlsValue.h"
 #include "StackTraceData.h"
 #include "SymManager.h"
 
 
-namespace
+StackTrace::StackTrace() : m_pData(new StackTraceData(1))
 {
-	TlsValue<StackTraceData*> gStackTraceData;
+	m_pData->FramesNumber = CaptureStackBackTrace(0, _countof(m_pData->Frames), m_pData->Frames, nullptr);
 }
 
-namespace
+StackTrace::StackTrace(StackTraceData* pData) : m_pData(new StackTraceData(1))
 {
-	LONG CALLBACK VectoredHandler(_In_ PEXCEPTION_POINTERS /*ExceptionInfo*/)
-	{
-		StackTraceData* pData = gStackTraceData;
-		pData->FramesNumber = CaptureStackBackTrace(0, _countof(pData->Frames), pData->Frames, nullptr);
-		return EXCEPTION_CONTINUE_SEARCH;
-	}
+	m_pData->FramesNumber = pData->FramesNumber;
+	memcpy(m_pData->Frames, pData->Frames, sizeof(void*) * pData->FramesNumber);
 }
 
-StackTrace::StackTrace()
+StackTrace::StackTrace(const StackTrace& stackTrace) : m_pData(stackTrace.m_pData)
 {
-	StackTraceData* pData = gStackTraceData;
-	if (nullptr == pData)
+	m_pData->Acquire();
+}
+
+StackTrace& StackTrace::operator=(const StackTrace& stackTrace)
+{
+	if (m_pData != stackTrace.m_pData)
 	{
-		pData = new StackTraceData();
-		gStackTraceData = pData;
-		AddVectoredExceptionHandler(TRUE, VectoredHandler);
+		m_pData->Release();
+		m_pData = stackTrace.m_pData;
+		m_pData->Acquire();
 	}
-	pData->Counter++;
+	return *this;
 }
 
 StackTrace::~StackTrace()
 {
-	StackTraceData* pData = gStackTraceData;
-	pData->Counter--;
-	if (0 == pData->Counter)
+	if (m_pData->Release())
 	{
-		delete pData;
-		gStackTraceData = nullptr;
-		RemoveVectoredExceptionHandler(VectoredHandler);
+		delete m_pData;
 	}
 }
 
-const std::vector<StackFrame> StackTrace::GetFrames() const
+std::vector<StackFrame> StackTrace::GetFrames() const
 {
-	StackTraceData* pData = gStackTraceData;
-	return SymManager::GetFrames(pData->FramesNumber, pData->Frames);
+	return SymManager::GetFrames(m_pData->FramesNumber, m_pData->Frames);
 }
 
 std::ostream& operator<<(std::ostream& stream, const StackTrace& stackTrace)
