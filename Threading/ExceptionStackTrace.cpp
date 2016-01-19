@@ -54,12 +54,6 @@ StackTrace ExceptionStackTrace::GetStackTrace()
 	{
 		throw std::runtime_error("Exception stack trace can be obtained only from catch section only");
 	}
-
 	StackTraceData* pData = gStackTraceData;
-	if (nullptr == pData)
-	{
-		throw std::runtime_error("Exception stack trace is not initialized");
-	}
-
 	return pData;
 }

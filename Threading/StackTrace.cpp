@@ -48,7 +48,7 @@ std::vector<StackFrame> StackTrace::GetFrames() const
 	return SymManager::GetFrames(m_pData->FramesNumber, m_pData->Frames);
 }
 
-std::ostream& operator<<(std::ostream& stream, const StackTrace& stackTrace)
+std::ostream& operator << (std::ostream& stream, const StackTrace& stackTrace)
 {
 	const std::vector<StackFrame>& frames = stackTrace.GetFrames();
 	auto it = frames.begin();

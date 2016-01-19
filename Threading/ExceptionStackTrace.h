@@ -17,7 +17,7 @@ public:
 	~ExceptionStackTrace();
 
 public:
-	static StackTrace GetStackTrace();
+	StackTrace GetStackTrace();
 
 private:
 	StackTraceData* m_data;
