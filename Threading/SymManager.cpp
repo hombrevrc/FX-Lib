@@ -43,13 +43,19 @@ std::string SymManager::CollectSearchPdbPaths()
 
 std::vector<StackFrame> SymManager::GetFrames(const uint32_t framesNumber, void** frames)
 {
+	SymManager& manager = gSymManager.GetOrCreate();
+	return manager.DoGetFrames(framesNumber, frames);
+}
+
+std::vector<StackFrame> SymManager::DoGetFrames(const uint32_t framesNumber, void** frames)
+{
 	std::vector<StackFrame> result;
 	result.resize(framesNumber);
 
-	SymManager& manager = gSymManager.GetOrCreate();
+	CsLocker lock(m_synchronizer);
 	for (uint32_t index = 0; index < framesNumber; ++index)
 	{
-		manager.GetFrame(frames[index], result[index]);
+		GetFrame(frames[index], result[index]);
 	}
 	return result;
 }

@@ -17,6 +17,9 @@ public:
 
 public:
 	static std::vector<StackFrame> GetFrames(const uint32_t framesNumber, void** frames);
+
+private:
+	std::vector<StackFrame> DoGetFrames(const uint32_t framesNumber, void** frames);
 	void GetFrame(void* address, StackFrame& frame);
 
 private:
