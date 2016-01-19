@@ -1,14 +1,20 @@
-// stdafx.h : include file for standard system include files,
-// or project specific include files that are used frequently, but
-// are changed infrequently
-//
+//==============================================================
+// Copyright (c) 2015 by Viktar Marmysh mailto:marmysh@gmail.com
+//==============================================================
 
 #pragma once
+#ifdef _DEBUG
+#define _CRTDBG_MAP_ALLOC
+#endif
+#ifdef _DEBUG
+#include <crtdbg.h>
+#define new new (_CLIENT_BLOCK, __FILE__, __LINE__)
+#endif
 
-#include "targetver.h"
+#ifdef min
+#undef min
+#endif
 
-#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
-
-
-
-// TODO: reference additional headers your program requires here
+#ifdef max
+#undef max
+#endif

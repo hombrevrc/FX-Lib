@@ -24,11 +24,11 @@ StackTrace::StackTrace(const StackTrace& stackTrace) : m_pData(stackTrace.m_pDat
 	m_pData->Acquire();
 }
 
-StackTrace& StackTrace::operator=(const StackTrace& stackTrace)
+StackTrace& StackTrace::operator = (const StackTrace& stackTrace)
 {
 	if (m_pData != stackTrace.m_pData)
 	{
-		m_pData->Release();
+		Finalize();
 		m_pData = stackTrace.m_pData;
 		m_pData->Acquire();
 	}
@@ -37,9 +37,15 @@ StackTrace& StackTrace::operator=(const StackTrace& stackTrace)
 
 StackTrace::~StackTrace()
 {
+	Finalize();
+}
+
+void StackTrace::Finalize()
+{
 	if (m_pData->Release())
 	{
 		delete m_pData;
+		m_pData = nullptr;
 	}
 }
 

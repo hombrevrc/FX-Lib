@@ -24,6 +24,9 @@ public:
 	std::vector<StackFrame> GetFrames() const;
 
 private:
+	void Finalize();
+
+private:
 	StackTraceData* m_pData = nullptr;
 
 private:
