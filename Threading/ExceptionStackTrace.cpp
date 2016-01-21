@@ -7,6 +7,7 @@
 #include "TlsValue.h"
 #include "StackTraceData.h"
 #include "SymManager.h"
+#include "PhysicalSingleton.h"
 
 
 namespace
@@ -19,19 +20,41 @@ namespace
 	LONG CALLBACK VectoredHandler(_In_ PEXCEPTION_POINTERS /*ExceptionInfo*/)
 	{
 		StackTraceData* pData = gStackTraceData;
-		pData->FramesNumber = CaptureStackBackTrace(0, _countof(pData->Frames), pData->Frames, nullptr);
+		if (nullptr != pData)
+		{
+			pData->FramesNumber = CaptureStackBackTrace(0, _countof(pData->Frames), pData->Frames, nullptr);
+		}
 		return EXCEPTION_CONTINUE_SEARCH;
 	}
 }
 
+namespace
+{
+	class ExceptionStackTraceRegistrator
+	{
+	public:
+		ExceptionStackTraceRegistrator()
+		{
+			AddVectoredExceptionHandler(TRUE, VectoredHandler);
+		}
+		~ExceptionStackTraceRegistrator()
+		{
+			RemoveVectoredExceptionHandler(VectoredHandler);
+		}
+	};
+
+	PhysicalSingleton<ExceptionStackTraceRegistrator> gExceptionStackTraceRegistrator;
+}
+
 ExceptionStackTrace::ExceptionStackTrace()
 {
+	gExceptionStackTraceRegistrator.GetOrCreate();
+
 	StackTraceData* pData = gStackTraceData;
 	if (nullptr == pData)
 	{
 		pData = new StackTraceData();
 		gStackTraceData = pData;
-		AddVectoredExceptionHandler(TRUE, VectoredHandler);
 	}
 	pData->Acquire();
 }
@@ -43,7 +66,6 @@ ExceptionStackTrace::~ExceptionStackTrace()
 	{
 		delete pData;
 		gStackTraceData = nullptr;
-		RemoveVectoredExceptionHandler(VectoredHandler);
 	}
 }
 
