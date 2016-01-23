@@ -7,7 +7,7 @@
 class StackFrame
 {
 public:
-	void* Address;
+	void* Address = nullptr;
 	uint32_t LineNumber = 0;
 	std::string FunctionName;
 	std::string FullFunctionName;
