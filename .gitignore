@@ -57,3 +57,8 @@
 /MetaLang/Debug.x64
 /Release
 /x64/Debug
+/Pipes/Release.x64
+/Pipes/Debug.x64
+/Remoting/Release.x64
+/Remoting/Debug.x64
+*.opendb

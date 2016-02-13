@@ -18,8 +18,23 @@
     <Filter Include="SharedMemory\Sources">
       <UniqueIdentifier>{1b35c75d-2f62-41ca-b9fe-4c9b06bd0e88}</UniqueIdentifier>
     </Filter>
-    <Filter Include="_Interfaces">
-      <UniqueIdentifier>{7fb451f2-f8fc-4fc9-8bd7-24b528d7cac3}</UniqueIdentifier>
+    <Filter Include="Exceptions">
+      <UniqueIdentifier>{f49a316c-dd3c-4f37-9e01-789bfe3c0a22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Exceptions\Headers">
+      <UniqueIdentifier>{73de347f-4d35-41b6-b823-2494ca2386c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Exceptions\Sources">
+      <UniqueIdentifier>{ba211a6d-f638-40fd-b858-1d94d0efffb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DateTime">
+      <UniqueIdentifier>{3066c721-4ee9-4ddc-b84c-686002ffcc52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DateTime\Headers">
+      <UniqueIdentifier>{d08e1a7c-045a-4976-a5c7-67fea6d2e177}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DateTime\Sources">
+      <UniqueIdentifier>{335e81c5-d946-4098-96a9-0be7ebdd5f67}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +75,30 @@
       <Filter>SharedMemory\Headers</Filter>
     </ClInclude>
     <ClInclude Include="SystemException.h">
+      <Filter>Exceptions\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeoutException.h">
+      <Filter>Exceptions\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Sal.h">
+      <Filter>_Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Functions.h">
+      <Filter>_Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Functions.Windows.hpp">
+      <Filter>_Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Functions.Linux.hpp">
+      <Filter>_Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryStream.h">
+      <Filter>_Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Timeout.h">
+      <Filter>DateTime\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Enumeration.h">
       <Filter>_Headers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -80,7 +119,19 @@
       <Filter>SharedMemory\Sources</Filter>
     </ClCompile>
     <ClCompile Include="SystemException.cpp">
+      <Filter>Exceptions\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeoutException.cpp">
+      <Filter>Exceptions\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Functions.cpp">
       <Filter>_Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryStream.cpp">
+      <Filter>_Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Timeout.cpp">
+      <Filter>DateTime\Sources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

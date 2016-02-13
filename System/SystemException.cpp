@@ -14,6 +14,26 @@ namespace
 
 SystemException::SystemException(const char* message) : std::runtime_error(message), m_errorCode(GetLastError())
 {
+	FormatMessage(message);
+}
+
+SystemException::SystemException(const std::string& message) : std::runtime_error(message), m_errorCode(GetLastError())
+{
+	FormatMessage(message.c_str());
+}
+
+char const* SystemException::what() const
+{
+	return m_what.c_str();
+}
+
+const uint32_t SystemException::GetErrorCode() const
+{
+	return m_errorCode;
+}
+
+void SystemException::FormatMessage(const char* message)
+{
 	std::stringstream stream;
 	stream << message << ". GetLastError() = " << m_errorCode;
 	char* buffer = nullptr;
@@ -30,14 +50,4 @@ SystemException::SystemException(const char* message) : std::runtime_error(messa
 		LocalFree(buffer);
 	}
 	m_what = stream.str();
-}
-
-char const* SystemException::what() const
-{
-	return m_what.c_str();
-}
-
-const uint32_t SystemException::GetErrorCode() const
-{
-	return m_errorCode;
 }
