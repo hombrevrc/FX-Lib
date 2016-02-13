@@ -19,15 +19,19 @@ PipeConnector::PipeConnector(const std::wstring& name) : m_name(name)
 
 IChannel* PipeConnector::Connect()
 {
-	Pipe pipe = Pipe::OpenReader(m_name, cPipeTimeoutInMs);
+	Timeout timeout(PIPE_TIMEOUT);
+	Pipe pipe = Pipe::OpenReader(m_name, timeout.ToIntervalInMs());
+
+	PipeReader helper;
+	helper.Bind(std::move(pipe));
 
 
-	MemoryStream stream;
-	pipe.Join();
+	std::wstring writingId = helper.ReadWString(timeout);
+	std::wstring readingId = helper.ReadWString(timeout);
 
+	Pipe writer = Pipe::OpenWriter(writingId, timeout.ToIntervalInMs());
+	Pipe reader = Pipe::OpenReader(readingId, timeout.ToIntervalInMs());
 
-
-
-	PipeChannel* result = new PipeChannel(std::move(pipe));
+	PipeChannel* result = new PipeChannel(std::move(reader), std::move(writer));
 	return result;
 }

@@ -178,6 +178,12 @@
     <ProjectReference Include="..\Pipes\Pipes.vcxproj">
       <Project>{82a4e8f9-654d-44ab-831f-9d2e85fe271d}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\System\System.vcxproj">
+      <Project>{5ebdc4d9-a9ca-4780-9c54-09fe9e5b849e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Threading\Threading.vcxproj">
+      <Project>{bc45cc8b-edee-48ae-a17b-924608da6532}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

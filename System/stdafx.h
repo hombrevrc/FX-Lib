@@ -32,3 +32,12 @@
 #define new new (_CLIENT_BLOCK, __FILE__, __LINE__)
 #endif
 #endif
+
+
+#ifdef max
+#undef max
+#endif
+
+#ifdef min
+#undef min
+#endif

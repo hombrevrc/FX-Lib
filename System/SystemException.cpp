@@ -34,7 +34,7 @@ const uint32_t SystemException::GetErrorCode() const
 
 void SystemException::FormatMessage(const char* message)
 {
-	std::stringstream stream;
+	std::ostringstream stream;
 	stream << message << ". GetLastError() = " << m_errorCode;
 	char* buffer = nullptr;
 	const DWORD length = FormatMessageA(cFormatMessageFlags, nullptr, m_errorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), reinterpret_cast<LPSTR>(&buffer), 0, nullptr);

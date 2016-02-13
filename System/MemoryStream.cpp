@@ -102,7 +102,7 @@ void MemoryStream::Write(const uint32_t size, const void* pData)
 void MemoryStream::Read(const uint32_t size, void* pData)
 {
 	const uint32_t newPosition = m_position + size;
-	if (newPosition >= m_size)
+	if (newPosition > m_size)
 	{
 		throw std::runtime_error("End of stream has been reached");
 	}
@@ -127,7 +127,7 @@ void MemoryStream::EnsureCapacity(const uint32_t totalSize)
 	do
 	{
 		newCapacity *= 2;
-	} while (newCapacity < m_capacity);
+	} while (newCapacity < totalSize);
 
 	uint8_t* newData = new uint8_t[newCapacity];
 	memcpy(newData, m_data, GetSize());

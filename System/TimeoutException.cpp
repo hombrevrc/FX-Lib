@@ -6,6 +6,10 @@
 #include "TimeoutException.h"
 
 
+TimeoutException::TimeoutException() : std::runtime_error("Operation timeout has been reached")
+{
+}
+
 TimeoutException::TimeoutException(const char* message) : std::runtime_error(message)
 {
 }

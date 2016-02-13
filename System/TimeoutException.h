@@ -7,6 +7,7 @@
 class TimeoutException : public std::runtime_error
 {
 public:
+	TimeoutException();
 	TimeoutException(const char* message);
 	TimeoutException(const std::string& message);
 };

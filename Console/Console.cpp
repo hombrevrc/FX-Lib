@@ -30,8 +30,6 @@ void Accept()
 		}
 	}
 
-
-
 	delete pServer;
 }
 
@@ -93,53 +91,13 @@ void WriteData(Pipe* pipe)
 int main()
 {
 	ThreadPool thread;
+	Delegate<void()> func = Accept;
+	TaskWaiter waiter;
 
-	Pipe writer = Pipe::CreateWriter(cPipeName);
+	thread.InvokeEx(func, waiter);
 
-	Delegate<void(Pipe*)> func = PipeAccept;
-	thread.Invoke(func, &writer);
-
-	Pipe reader = Pipe::OpenReader(cPipeName, 5000);
-
-	func = WriteData;
-	thread.Invoke(func, &writer);
-
-	char buffer[64 * 1024];
-	char* pData = buffer;
-	uint32_t count = sizeof(buffer);
-
-	
+	Connect();
 
 
-	for (; count > 0;)
-	{
-		uint32_t size = reader.Read(count, pData);
-
-		if (size > 0)
-		{
-			pData += size;
-			count -= size;
-			std::cout << "size = " << size << std::endl;
-			continue;
-		}
-
-
-		Sleep(5000);
-
-		reader.Join();
-
-		uint32_t transmittedBytes = 0;
-		reader.GetOverlappedResult(transmittedBytes);
-		if (transmittedBytes > 0)
-		{
-			pData += transmittedBytes;
-			count -= transmittedBytes;
-		}
-
-		std::cout << "transmittedBytes = " << transmittedBytes << std::endl;
-
-	}
-
-
-
+	waiter.Join();
 }
