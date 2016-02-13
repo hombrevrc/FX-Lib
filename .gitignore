@@ -62,3 +62,5 @@
 /Remoting/Release.x64
 /Remoting/Debug.x64
 *.opendb
+/Console/Release.x64
+/Console/Debug.x64
