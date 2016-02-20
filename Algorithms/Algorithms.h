@@ -3,6 +3,3 @@
 //==============================================================
 
 #pragma once
-
-#include "PipeAcceptor.h"
-#include "PipeConnector.h"

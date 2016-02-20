@@ -158,6 +158,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Algorithms.h" />
     <ClInclude Include="LLookup.h" />
     <ClInclude Include="LLookup.Performance.hpp" />
     <ClInclude Include="LLookupTraits.h" />

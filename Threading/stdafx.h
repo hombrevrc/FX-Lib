@@ -29,6 +29,7 @@
 #include <exception>
 #include <unordered_map>
 #include <sstream>
+#include <mutex>
 
 #ifdef _DEBUG
 #include <crtdbg.h>

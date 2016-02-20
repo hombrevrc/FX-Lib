@@ -32,6 +32,9 @@
     <ClInclude Include="LMap.Performance.hpp">
       <Filter>Headera</Filter>
     </ClInclude>
+    <ClInclude Include="Algorithms.h">
+      <Filter>Headera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

@@ -9,22 +9,3 @@
 #include "LiteSingleton.h"
 #include "Timer.h"
 #include "ExceptionStackTrace.h"
-
-
-#ifdef _WIN64
-
-#ifndef NDEBUG
-#pragma comment(lib,"./Debug/Threading.x64.lib")
-#else
-#pragma comment(lib,"./Release/Threading.x64.lib")
-#endif
-
-#else
-
-#ifndef NDEBUG
-#pragma comment(lib,"./Debug/Threading.x86.lib")
-#else
-#pragma comment(lib,"./Release/Threading.x86.lib")
-#endif
-
-#endif

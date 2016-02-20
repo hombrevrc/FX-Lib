@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include "CriticalSection.h"
-
 template<typename T> class PhysicalSingleton
 {
 public:
@@ -15,9 +13,11 @@ public:
 
 	~PhysicalSingleton()
 	{
-		if (nullptr != m_instance)
+		T* pInstance = m_instance;
+		if (nullptr != pInstance)
 		{
-			delete m_instance;
+			m_instance = nullptr;
+			delete pInstance;
 		}
 	}
 
@@ -26,17 +26,30 @@ public:
 	PhysicalSingleton& operator = (const PhysicalSingleton&) = delete;
 
 public:
-	T& GetOrCreate()
+	template<typename ... TArgs> T& GetOrCreate(const TArgs&... args)
 	{
-		if (nullptr == m_instance)
+		T* result = m_instance;
+		if (nullptr == result)
 		{
-			CsLocker lock(m_synchronizer);
-			if (nullptr == m_instance)
+			std::unique_lock<std::mutex> lock(m_synchronizer);
+			result = m_instance;
+			if (nullptr == result)
 			{
-				m_instance = new T();
+				result = new T(args...);
+				m_instance = result;
 			}
 		}
-		return const_cast<T&>(*m_instance);
+		return *result;
+	}
+
+	T& Get()
+	{
+		T* result = m_instance;
+		if (nullptr == result)
+		{
+			throw std::runtime_error("Singleton instance is not created");
+		}
+		return *result;
 	}
 
 public:
@@ -46,6 +59,6 @@ public:
 	}
 
 private:
-	CriticalSection m_synchronizer;
-	volatile T* m_instance;
+	std::mutex m_synchronizer;
+	std::atomic<T*> m_instance;
 };
