@@ -91,6 +91,7 @@ void WriteData(Pipe* pipe)
 int main()
 {
 	ThreadPool thread;
+
 	Delegate<void()> func = Accept;
 	TaskWaiter waiter;
 
