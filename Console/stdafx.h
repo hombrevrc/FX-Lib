@@ -17,7 +17,21 @@
 #include <mutex>
 #include <iostream>
 
+#include <fstream>
+
 #include "../System/System.h"
 #include "../Threading/Threading.h"
+#include "../Logging/Logging.h"
 #include "../Remoting/Remoting.h"
 #include "../Pipes/Pipes.h"
+
+
+#include <filesystem>
+
+namespace std
+{
+	namespace filesystem
+	{
+		using namespace std::experimental::filesystem;
+	}
+}

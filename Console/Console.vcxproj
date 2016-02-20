@@ -175,6 +175,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Logging\Logging.vcxproj">
+      <Project>{2430ee62-0c14-48ca-bf04-415c83655c8b}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Pipes\Pipes.vcxproj">
       <Project>{82a4e8f9-654d-44ab-831f-9d2e85fe271d}</Project>
     </ProjectReference>
