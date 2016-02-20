@@ -27,15 +27,29 @@ BinFlushingQueue::~BinFlushingQueue()
 
 void BinFlushingQueue::Add(BinLogger* pLogger)
 {
-	CsLocker lock(m_synchronizer);
-	m_loggers.push_back(pLogger);
+	std::unique_lock<std::mutex> lock(m_synchronizer);
+	if (m_continue)
+	{
+		m_loggers.push_back(pLogger);
+	}
+	else
+	{
+		pLogger->SwitchToSynchronousMode();
+	}
 }
 
 void BinFlushingQueue::Remove(BinLogger* pLogger)
 {
-	CsLocker lock(m_synchronizer);
+	std::unique_lock<std::mutex> lock(m_synchronizer);
 	auto it = std::remove(m_loggers.begin(), m_loggers.end(), pLogger);
 	m_loggers.erase(it, m_loggers.end());
+}
+
+void BinFlushingQueue::Stop()
+{
+	m_continue = false;
+	m_event.Release();
+	m_thread.Finalize();
 }
 
 void BinFlushingQueue::Loop()
@@ -44,12 +58,23 @@ void BinFlushingQueue::Loop()
 	{
 		Flush();
 	}
+	SwithchToSynchronousMode();
 	Flush();
+}
+
+void BinFlushingQueue::SwithchToSynchronousMode()
+{
+	std::unique_lock<std::mutex> lock(m_synchronizer);
+	for (auto element : m_loggers)
+	{
+		element->SwitchToSynchronousMode();
+	}
+	m_loggers.clear();
 }
 
 void BinFlushingQueue::Flush()
 {
-	CsLocker lock(m_synchronizer);
+	std::unique_lock<std::mutex> lock(m_synchronizer);
 	for (auto element : m_loggers)
 	{
 		element->Flush();

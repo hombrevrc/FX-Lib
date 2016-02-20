@@ -30,6 +30,20 @@ BinStream::~BinStream()
 	}
 }
 
+void BinStream::operator >> (BinLogger* pLogger)
+{
+	if (nullptr != m_pMaxSize)
+	{
+		*m_pMaxSize = m_pEntry->GetSize();
+	}
+	if (nullptr == pLogger)
+	{
+		pLogger = &BinLogger::GetGlobalLogger();
+	}
+	pLogger->Add(m_pEntry);
+	m_pEntry = nullptr;
+}
+
 void BinStream::operator >> (BinLogger& logger)
 {
 	if (nullptr != m_pMaxSize)

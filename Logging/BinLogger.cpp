@@ -17,6 +17,7 @@ namespace
 namespace
 {
 	PhysicalSingleton<BinFlushingQueue> gQueue;
+	PhysicalSingleton<BinLogger> gGlobalLogger;
 }
 
 namespace
@@ -43,9 +44,17 @@ namespace
 	}
 }
 
-BinLogger::BinLogger(const std::wstring& directory, const std::wstring& filename) :
-	m_directory(directory), m_filename(filename), m_head(nullptr, 0), m_pLast(&m_head)
+BinLogger::BinLogger(const std::filesystem::path& directory, const std::tstring& filename) :
+	m_directory(directory), m_filename(filename)
 {
+	if (!std::filesystem::create_directories(m_directory))
+	{
+		if (!std::filesystem::exists(m_directory))
+		{
+			throw SystemException("Couldn't create a new directory");
+		}
+	}
+
 	gQueue->Add(this);
 }
 
@@ -54,28 +63,63 @@ BinLogger::~BinLogger()
 	gQueue->Remove(this);
 }
 
+void BinLogger::Initialize(const std::filesystem::path& directory, const std::tstring& filename)
+{
+	gGlobalLogger.GetOrCreate(directory, filename);
+}
+
+BinLogger& BinLogger::GetGlobalLogger()
+{
+	return gGlobalLogger.Get();
+}
+
+void BinLogger::StopFlushingQueue()
+{
+	gQueue->Stop();
+}
+
+void BinLogger::SwitchToSynchronousMode()
+{
+	m_synchronousMode = true;
+}
+
 void BinLogger::Add(BinEntry* pEntry)
 {
-	CsLocker lock(m_synchronizer);
+	pEntry->Link = m_trail;
 	pEntry->AcquireCurrentTime();
-	m_pLast->Link = pEntry;
-	m_pLast = pEntry;
+	while(!m_trail.compare_exchange_strong(pEntry->Link, pEntry))
+	{
+	}
+
+	if (m_synchronousMode)
+	{
+		Flush();
+	}
 }
 
 void BinLogger::Flush()
 {
-	BinEntry* pEnry = nullptr;
+	std::unique_lock<std::mutex> lock(m_synchronizer);
+
+	BinEntry* pTrail = m_trail;
+	while(!m_trail.compare_exchange_strong(pTrail, nullptr))
 	{
-		CsLocker lock(m_synchronizer);
-		pEnry = m_head.Link;
-		m_head.Link = nullptr;
-		m_pLast = &m_head;
 	}
-	while (nullptr != pEnry)
+
+	BinEntry* pHead = nullptr;
+	for (BinEntry* pCurrent = pTrail; nullptr != pCurrent;)
 	{
-		Write(*pEnry);
-		BinEntry* pTemp = pEnry;
-		pEnry = pEnry->Link;
+		BinEntry* pNext = pCurrent->Link;
+		pCurrent->Link = pHead;
+		pHead = pCurrent;
+		pCurrent = pNext;
+	}
+
+	for (BinEntry* pCurrent = pHead; nullptr != pCurrent;)
+	{
+		Write(*pCurrent);
+		BinEntry* pTemp = pCurrent;
+		pCurrent = pCurrent->Link;
 		delete pTemp;
 	}
 }
@@ -89,7 +133,7 @@ void BinLogger::Write(BinEntry& entry)
 		ZeroMemory(&time, sizeof(time));
 		FileTimeToSystemTime(reinterpret_cast<FILETIME*>(&entry.TimeStamp), &time);
 
-		stringstream stream;
+		std::ostringstream stream;
 		stream << reinterpret_cast<FILETIME&>(entry.TimeStamp);
 		stream << ", " << entry.ThreadId;
 		if (nullptr != entry.Type)
@@ -118,16 +162,18 @@ void BinLogger::ReopenIfNeeded(uint64_t timeStamp)
 	ZeroMemory(&time, sizeof(time));
 	FileTimeToSystemTime(reinterpret_cast<FILETIME*>(&timeStamp), &time);
 
-	wstringstream stream;
-	stream << m_directory << time.wYear << '-' << time.wMonth << '-' << time.wDay << '_' << m_filename << ".log";
-	wstring path = stream.str();
+	tostringstream stream;
+	stream << time.wYear << '-' << time.wMonth << '-' << time.wDay << '_' << m_filename << ".log";
+	tstring filename = stream.str();
+	std::filesystem::path path = m_directory / filename;
+
 	if (m_stream.is_open())
 	{
 		m_stream.flush();
 		m_stream.close();
 	}
 
-	m_stream.open(path.c_str(), std::ios::app);
+	m_stream.open(path, std::ios::app);
 	if (m_stream.is_open())
 	{
 		m_date = date;

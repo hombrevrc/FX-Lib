@@ -167,6 +167,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BinEntry.cpp" />
     <ClCompile Include="BinFlushingQueue.cpp" />
     <ClCompile Include="BinLogger.cpp" />
     <ClCompile Include="BinStream.cpp" />

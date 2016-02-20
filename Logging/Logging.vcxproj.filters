@@ -46,5 +46,8 @@
     <ClCompile Include="BinStream.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="BinEntry.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

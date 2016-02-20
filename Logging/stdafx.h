@@ -19,6 +19,16 @@
 #include <map>
 #include <unordered_map>
 #include <thread>
+#include <mutex>
+#include <filesystem>
+
+namespace std
+{
+	namespace filesystem
+	{
+		using namespace std::experimental::filesystem;
+	}
+}
 
 #ifdef _DEBUG
 #include <crtdbg.h>

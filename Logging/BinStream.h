@@ -58,6 +58,7 @@ public:
 
 public:
 	void operator >> (BinLogger& logger);
+	void operator >> (BinLogger* pLogger);
 	void operator >> (std::ostream& stream);
 
 public:
