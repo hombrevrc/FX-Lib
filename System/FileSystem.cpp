@@ -2,10 +2,13 @@
 // Copyright (c) 2016 by Viktar Marmysh mailto:marmysh@gmail.com
 //==============================================================
 
-#pragma once
+#include "stdafx.h"
+#include "FileSystem.h"
 
-#ifdef _MSC_VER
-#define FX_LIB_WINDOWS
-#else
-#define FX_LIB_LINUX
+#ifdef FX_LIB_WINDOWS
+#include "FileSystem.Windows.hpp"
+#endif
+
+#ifdef FX_LIB_LINUX
+#include "FileSystem.Linux.hpp"
 #endif

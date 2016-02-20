@@ -160,6 +160,9 @@
   <ItemGroup>
     <ClInclude Include="Delegate.h" />
     <ClInclude Include="Enumeration.h" />
+    <ClInclude Include="FileSystem.h" />
+    <ClInclude Include="FileSystem.Linux.hpp" />
+    <ClInclude Include="FileSystem.Windows.hpp" />
     <ClInclude Include="Functions.h" />
     <ClInclude Include="Functions.Linux.hpp" />
     <ClInclude Include="Functions.Windows.hpp" />
@@ -168,6 +171,7 @@
     <ClInclude Include="Sal.h" />
     <ClInclude Include="SharedMemory.h" />
     <ClInclude Include="SharedMemoryAccess.h" />
+    <ClInclude Include="Std.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="targetver.h" />
@@ -177,10 +181,12 @@
     <ClInclude Include="Timeout.h" />
     <ClInclude Include="TimeoutException.h" />
     <ClInclude Include="Type.h" />
+    <ClInclude Include="Types.h" />
     <ClInclude Include="TypeTraits.h" />
     <ClInclude Include="SystemException.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="Functions.cpp" />
     <ClCompile Include="MemoryStream.cpp" />
     <ClCompile Include="SharedMemory.cpp" />

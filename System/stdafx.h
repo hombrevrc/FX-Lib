@@ -18,13 +18,7 @@
 #include <Windows.h>
 #endif
 
-#include <stdint.h>
-#include <assert.h>
-#include <string>
-#include <atlbase.h>
-#include <exception>
-#include <sstream>
-#include <chrono>
+#include "Std.h"
 
 #ifdef FX_LIB_WINDOWS
 #ifdef _DEBUG

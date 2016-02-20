@@ -36,6 +36,15 @@
     <Filter Include="DateTime\Sources">
       <UniqueIdentifier>{335e81c5-d946-4098-96a9-0be7ebdd5f67}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FileSystem">
+      <UniqueIdentifier>{6ef3d11f-b388-45b6-953f-788c400ce944}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileSystem\Headers">
+      <UniqueIdentifier>{d0b42723-044b-4e0c-95d0-4c203b2e85b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileSystem\Sourcs">
+      <UniqueIdentifier>{827853b2-f131-465a-a9e3-e1362a13053f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -101,6 +110,21 @@
     <ClInclude Include="Enumeration.h">
       <Filter>_Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>_Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Std.h">
+      <Filter>_Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem.h">
+      <Filter>FileSystem\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem.Windows.hpp">
+      <Filter>FileSystem\Sourcs</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem.Linux.hpp">
+      <Filter>FileSystem\Sourcs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -132,6 +156,9 @@
     </ClCompile>
     <ClCompile Include="Timeout.cpp">
       <Filter>DateTime\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem.cpp">
+      <Filter>FileSystem\Sourcs</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

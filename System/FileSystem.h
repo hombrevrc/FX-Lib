@@ -4,8 +4,4 @@
 
 #pragma once
 
-#ifdef _MSC_VER
-#define FX_LIB_WINDOWS
-#else
-#define FX_LIB_LINUX
-#endif
+std::filesystem::path GetStartupDirectory();
