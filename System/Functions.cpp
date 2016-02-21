@@ -4,7 +4,6 @@
 
 #include "stdafx.h"
 #include "Functions.h"
-#include "SystemException.h"
 
 #ifdef FX_LIB_WINDOWS
 #include "Functions.Windows.hpp"

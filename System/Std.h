@@ -15,11 +15,10 @@
 #include <stdint.h>
 #include <assert.h>
 #include <string>
-#include <atlbase.h>
 #include <exception>
 #include <sstream>
 #include <chrono>
-#include <filesystem>
+#include <experimental/filesystem>
 #include <mutex>
 
 namespace std

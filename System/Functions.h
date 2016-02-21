@@ -4,5 +4,5 @@
 
 #pragma once
 
-std::wstring GenerateGuid();
+std::tstring GenerateGuid();
 

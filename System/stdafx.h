@@ -16,7 +16,18 @@
 #include "targetver.h"
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 #include <Windows.h>
+#include <atlbase.h>
 #endif
+
+#ifdef FX_LIB_LINUX
+
+#include <sys/types.h>
+#include <unistd.h>
+#include <linux/limits.h>
+#include <linux/uuid.h>
+
+#endif
+
 
 #include "Std.h"
 
@@ -35,3 +46,5 @@
 #ifdef min
 #undef min
 #endif
+
+#include "Types.h"

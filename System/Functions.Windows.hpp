@@ -4,7 +4,9 @@
 
 #pragma once
 
-std::wstring GenerateGuid()
+#include "SystemException.h"
+
+std::tstring GenerateGuid()
 {
 	GUID guid;
 	ZeroMemory(&guid, sizeof(guid));
