@@ -6,7 +6,9 @@
 #ifdef _DEBUG
 #define _CRTDBG_MAP_ALLOC
 #endif
-#include <Windows.h>
+
+#include "../System/Sal.h"
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -21,6 +23,11 @@
 #include <thread>
 #include <mutex>
 #include <filesystem>
+
+#ifdef FX_LIB_WINDOWS
+#include <windows.h>
+#include <atlbase.h>
+#endif
 
 namespace std
 {
