@@ -30,7 +30,7 @@ void TaskWaiter::Release()
 	const uint32_t newState = m_state.fetch_sub(1) - 1;
 	if (cNeedToWakeUp == newState)
 	{
-		Semaphore& event = GetEvent();
+		StdSemaphore& event = GetEvent();
 		event.Release();
 	}
 }
@@ -41,14 +41,14 @@ void TaskWaiter::Join()
 
 	if (0 != state)
 	{
-		Semaphore& event = GetEvent();
+		StdSemaphore& event = GetEvent();
 		event.Acquire();
 	}
 
 	m_state.fetch_and(~cNeedToWakeUp);
 }
 
-Semaphore& TaskWaiter::GetEvent()
+StdSemaphore& TaskWaiter::GetEvent()
 {
 	return m_event.GetOrCreate(0, 1);
 }

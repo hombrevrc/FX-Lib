@@ -167,7 +167,7 @@
     <ClInclude Include="Monitor.h" />
     <ClInclude Include="Optex.h" />
     <ClInclude Include="PhysicalSingleton.h" />
-    <ClInclude Include="Semaphore.h" />
+    <ClInclude Include="SysSemaphore.h" />
     <ClInclude Include="SharedExclusiveLock.h" />
     <ClInclude Include="StackFrame.h" />
     <ClInclude Include="ExceptionStackTrace.h" />
@@ -189,7 +189,7 @@
     <ClCompile Include="Functions.cpp" />
     <ClCompile Include="LogicalSingleton.cpp" />
     <ClCompile Include="Optex.cpp" />
-    <ClCompile Include="Semaphore.cpp" />
+    <ClCompile Include="SysSemaphore.cpp" />
     <ClCompile Include="SharedExclusiveLock.cpp" />
     <ClCompile Include="StackFrame.cpp" />
     <ClCompile Include="ExceptionStackTrace.cpp" />

@@ -4,8 +4,7 @@
 
 #pragma once
 
-#include "Semaphore.h"
-#include "CriticalSection.h"
+#include "StdSemaphore.h"
 
 namespace Internal
 {
@@ -79,8 +78,8 @@ private:
 
 private:
 	volatile bool m_continue;
-	CriticalSection m_synchronizer;
-	Semaphore m_event;
+	std::mutex m_synchronizer;
+	StdSemaphore m_event;
 	std::thread m_thread;
 
 private:

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "Semaphore.h"
+#include "SysSemaphore.h"
 #include "CriticalSection.h"
 #include "TaskWaiter.h"
 
@@ -53,29 +53,22 @@ private:
 	void AddTask(TaskEx* pTask);
 
 private:
-	bool Construct(const size_t threadsNumber);
-	static unsigned int __stdcall ThreadFunction(void* pointer);
-
-private:
 	void Loop();
 	void Join();
-	void Dispose();
 	void Step(TaskEx* pTask);
-	void DoStep(TaskEx* pTask);
 
 private:
 	TaskEx* WaitFor();
 	void Release();
-	void Release(size_t count);
 	void Finalizing();
 	void DeleteTasks();
 
 private:
-	std::atomic<bool> m_continue;
-	CriticalSection m_synchronizer;
-	std::atomic<int32_t> m_counter;
-	std::vector< std::pair<uint32_t, HANDLE> > m_threads;
-	Semaphore m_event;
-	TaskEx* m_pFirst;
-	TaskEx* m_pLast;
+	std::atomic<bool> m_continue = true;
+	std::atomic<int32_t> m_counter = 0;
+	TaskEx* m_pFirst = nullptr;
+	TaskEx* m_pLast = nullptr;
+	std::mutex m_synchronizer;
+	std::vector<std::thread> m_threads;
+	StdSemaphore m_event;
 };

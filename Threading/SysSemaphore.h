@@ -4,14 +4,15 @@
 
 #pragma once
 
-class Semaphore
+class SysSemaphore
 {
 public:
-	Semaphore(const uint32_t maxCount);
-	Semaphore(const uint32_t initialCount, const uint32_t maxCount);
-	Semaphore(const Semaphore&) = delete;
-	Semaphore& operator = (const Semaphore&) = delete;
-	~Semaphore();
+	SysSemaphore();
+	SysSemaphore(const uint32_t maxCount);
+	SysSemaphore(const uint32_t initialCount, const uint32_t maxCount);
+	SysSemaphore(const SysSemaphore&) = delete;
+	SysSemaphore& operator = (const SysSemaphore&) = delete;
+	~SysSemaphore();
 
 public:
 	void Release();
@@ -19,6 +20,9 @@ public:
 	void Acquire();
 	bool AcquireInMs(const std::chrono::milliseconds timeoutInMs);
 	bool AcquireInMs(const uint32_t timeoutInMs);
+
+private:
+	void Construct(const uint32_t initialCount, const uint32_t maxCount);
 
 private:
 	HANDLE m_handle;

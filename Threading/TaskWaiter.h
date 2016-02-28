@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "Semaphore.h"
+#include "StdSemaphore.h"
 #include "LiteSingleton.h"
 
 class TaskWaiter
@@ -21,9 +21,9 @@ public:
 	void Join();
 
 private:
-	Semaphore& GetEvent();
+	StdSemaphore& GetEvent();
 
 private:
 	std::atomic<uint32_t> m_state;
-	LiteSingleton<Semaphore> m_event;
+	LiteSingleton<StdSemaphore> m_event;
 };

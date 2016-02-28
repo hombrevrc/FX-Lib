@@ -26,10 +26,10 @@ private:
 
 private:
 	std::atomic_bool m_continue;
-	Semaphore m_event;
+	StdSemaphore m_event;
 
 private:
 	std::mutex m_synchronizer;
-	ThreadPool m_thread;
+	std::thread m_thread;
 	std::vector<BinLogger*> m_loggers;
 };

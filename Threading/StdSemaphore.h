@@ -7,14 +7,20 @@
 class StdSemaphore
 {
 public:
-	StdSemaphore(const uint32_t initialCount = 0, const uint32_t maxCount = (std::numeric_limits<uint32_t>::max)());
+	StdSemaphore();
+	StdSemaphore(const uint32_t maxCount);
+	StdSemaphore(const uint32_t initialCount, const uint32_t maxCount);
 	StdSemaphore(const StdSemaphore&) = delete;
 	StdSemaphore& operator = (const StdSemaphore&) = delete;
 
 public:
 	void Acquire();
 	bool AcquireInMs(std::chrono::milliseconds timeoutInMs);
+	bool AcquireInMs(const uint32_t timeoutInMs);
 	void Release();
+
+private:
+	void Construct(const uint32_t initialCount, const uint32_t maxCount);
 
 private:
 	uint32_t m_count;

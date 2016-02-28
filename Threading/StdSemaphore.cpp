@@ -6,8 +6,22 @@
 #include "StdSemaphore.h"
 
 
-StdSemaphore::StdSemaphore(const uint32_t initialCount /*= 0*/, const uint32_t maxCount /*= (std::numeric_limits<uint32_t>::max)()*/) :
-	m_count(initialCount), m_maxCount(maxCount)
+StdSemaphore::StdSemaphore()
+{
+	Construct(0, std::numeric_limits<uint32_t>::max());
+}
+
+StdSemaphore::StdSemaphore(const uint32_t maxCount)
+{
+	Construct(0, maxCount);
+}
+
+StdSemaphore::StdSemaphore(const uint32_t initialCount, const uint32_t maxCount)
+{
+	Construct(initialCount, maxCount);
+}
+
+void StdSemaphore::Construct(const uint32_t initialCount, const uint32_t maxCount)
 {
 	if (0 == maxCount)
 	{
@@ -16,8 +30,11 @@ StdSemaphore::StdSemaphore(const uint32_t initialCount /*= 0*/, const uint32_t m
 
 	if (initialCount > m_maxCount)
 	{
-		throw std::invalid_argument("initalCount can not be greater than maxCount");
+		throw std::invalid_argument("initialCount can not be greater than maxCount");
 	}
+
+	m_count = initialCount;
+	m_maxCount = maxCount;
 }
 
 void StdSemaphore::Acquire()
@@ -47,6 +64,13 @@ bool StdSemaphore::AcquireInMs(std::chrono::milliseconds timeoutInMs)
 	assert(m_count <= m_maxCount);
 	--m_count;
 	return true;
+}
+
+bool StdSemaphore::AcquireInMs(const uint32_t timeoutInMs)
+{
+	std::chrono::milliseconds duration(timeoutInMs);
+	const bool result = AcquireInMs(duration);
+	return result;
 }
 
 void StdSemaphore::Release()
