@@ -125,6 +125,15 @@
     <ClInclude Include="FileSystem.Linux.hpp">
       <Filter>FileSystem\Sourcs</Filter>
     </ClInclude>
+    <ClInclude Include="DateTime.h">
+      <Filter>DateTime\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemClock.h">
+      <Filter>DateTime\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemTimePoint.h">
+      <Filter>DateTime\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -159,6 +168,15 @@
     </ClCompile>
     <ClCompile Include="FileSystem.cpp">
       <Filter>FileSystem\Sourcs</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemClock.cpp">
+      <Filter>DateTime\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="DateTime.cpp">
+      <Filter>DateTime\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemTimePoint.cpp">
+      <Filter>DateTime\Sources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

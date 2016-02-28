@@ -19,3 +19,5 @@
 #include "Timeout.h"
 #include "Enumeration.h"
 #include "FileSystem.h"
+#include "SystemClock.h"
+#include "DateTime.h"

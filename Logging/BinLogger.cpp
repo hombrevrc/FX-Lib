@@ -11,11 +11,6 @@ using namespace std;
 
 namespace
 {
-	const uint64_t cTicksInDay = 864000000000LL;
-}
-
-namespace
-{
 	PhysicalSingleton<BinFlushingQueue> gQueue;
 	PhysicalSingleton<BinLogger> gGlobalLogger;
 }
@@ -28,7 +23,7 @@ namespace
 		ZeroMemory(&sTime, sizeof(sTime));
 		if(!FileTimeToSystemTime(&fTime, &sTime))
 		{
-			throw runtime_error("Couldn't convert file time to system time");
+			throw std::runtime_error("Couldn't convert file time to system time");
 		}
 
 		stream << setw(4) << setfill('0') << sTime.wYear << '-';
@@ -87,7 +82,7 @@ void BinLogger::Add(BinEntry* pEntry)
 {
 	pEntry->Link = m_trail;
 	pEntry->AcquireCurrentTime();
-	while(!m_trail.compare_exchange_strong(pEntry->Link, pEntry))
+	while(!m_trail.compare_exchange_weak(pEntry->Link, pEntry))
 	{
 	}
 
@@ -102,7 +97,7 @@ void BinLogger::Flush()
 	std::unique_lock<std::mutex> lock(m_synchronizer);
 
 	BinEntry* pTrail = m_trail;
-	while(!m_trail.compare_exchange_strong(pTrail, nullptr))
+	while(!m_trail.compare_exchange_weak(pTrail, nullptr))
 	{
 	}
 
@@ -128,13 +123,13 @@ void BinLogger::Write(BinEntry& entry)
 {
 	try
 	{
-		ReopenIfNeeded(entry.TimeStamp);
+		ReopenIfNeeded(entry.TimePoint);
 		SYSTEMTIME time;
 		ZeroMemory(&time, sizeof(time));
-		FileTimeToSystemTime(reinterpret_cast<FILETIME*>(&entry.TimeStamp), &time);
+		FileTimeToSystemTime(reinterpret_cast<FILETIME*>(&entry.TimePoint), &time);
 
 		std::ostringstream stream;
-		stream << reinterpret_cast<FILETIME&>(entry.TimeStamp);
+		stream << reinterpret_cast<FILETIME&>(entry.TimePoint);
 		stream << ", " << entry.ThreadId;
 		if (nullptr != entry.Type)
 		{
@@ -150,20 +145,19 @@ void BinLogger::Write(BinEntry& entry)
 	}
 }
 
-void BinLogger::ReopenIfNeeded(uint64_t timeStamp)
+void BinLogger::ReopenIfNeeded(SystemClock::time_point tp)
 {
-	const uint64_t date = timeStamp / cTicksInDay;
-	if (date <= m_date)
+	typedef std::chrono::duration<int32_t, std::ratio<24 * 3600> > days;
+	days date = std::chrono::duration_cast<days>(tp.time_since_epoch());
+	if (date.count() <= m_date)
 	{
 		return;
 	}
 
-	SYSTEMTIME time;
-	ZeroMemory(&time, sizeof(time));
-	FileTimeToSystemTime(reinterpret_cast<FILETIME*>(&timeStamp), &time);
+	DateTime dt(tp);
 
 	tostringstream stream;
-	stream << time.wYear << '-' << time.wMonth << '-' << time.wDay << '_' << m_filename << ".log";
+	stream << dt.Year << '-' << dt.Month << '-' << dt.Day << '_' << m_filename << ".log";
 	tstring filename = stream.str();
 	std::filesystem::path path = m_directory / filename;
 
@@ -176,6 +170,6 @@ void BinLogger::ReopenIfNeeded(uint64_t timeStamp)
 	m_stream.open(path, std::ios::app);
 	if (m_stream.is_open())
 	{
-		m_date = date;
+		m_date = date.count();
 	}
 }
