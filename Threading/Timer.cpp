@@ -32,7 +32,7 @@ void Timer::MainLoop()
 {
 	uint32_t timeoutInMs = 0;
 
-	for (; m_continue; m_event.WaitFor(timeoutInMs))
+	for (; m_continue; m_event.AcquireInMs(timeoutInMs))
 	{
 		timeoutInMs = Loop();
 	}
@@ -56,7 +56,7 @@ uint32_t Timer::Step()
 	TaskEx* pTask = nullptr;
 
 	{
-		CsLocker lock(m_synchronizer);
+		std::unique_lock<std::mutex> lock(m_synchronizer);
 		if (m_timers.empty())
 		{
 			return static_cast<uint32_t>(cMaxTimeoutInMs);
@@ -106,7 +106,7 @@ void Timer::DoStep(TaskEx* pTask)
 
 bool Timer::StopTimer(const std::string& name)
 {
-	CsLocker lock(m_synchronizer);
+	std::unique_lock<std::mutex> lock(m_synchronizer);
 
 	auto it = m_nameToTimer.find(name);
 	if (m_nameToTimer.end() == it)
@@ -129,7 +129,7 @@ void Timer::StartTimer(const std::string& name, const uint64_t offsetInMs, const
 {
 	const uint64_t now = GetTickCount64();
 
-	CsLocker lock(m_synchronizer);
+	std::unique_lock<std::mutex> lock(m_synchronizer);
 
 	if (m_nameToTimer.count(name) > 0)
 	{

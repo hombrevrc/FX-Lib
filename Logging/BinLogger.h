@@ -26,7 +26,7 @@ public:
 
 private:
 	void Write(BinEntry& entry);
-	void ReopenIfNeeded(uint64_t timeStamp);
+	void ReopenIfNeeded(SystemClock::time_point tp);
 
 private:
 	const std::filesystem::path m_directory;
@@ -38,6 +38,6 @@ private:
 	std::mutex m_synchronizer;
 
 private:
-	uint64_t m_date = 0;
+	int32_t m_date = -1;
 	std::ofstream m_stream;
 };

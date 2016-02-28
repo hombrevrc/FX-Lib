@@ -6,7 +6,7 @@
 #include "ThreadPool.h"
 
 
-ThreadPool::ThreadPool(const uint32_t threadsNumber /* = 1 */) : m_continue(true), m_pFirst(nullptr), m_pLast(nullptr), m_event(0, threadsNumber)
+ThreadPool::ThreadPool(const uint32_t threadsNumber /* = 1 */) : m_event(0, threadsNumber)
 {
 	m_threads.reserve(threadsNumber);
 
@@ -14,9 +14,8 @@ ThreadPool::ThreadPool(const uint32_t threadsNumber /* = 1 */) : m_continue(true
 	{
 		for (uint32_t index = 0; index < threadsNumber; ++index)
 		{
-			uint32_t id = 0;
-			HANDLE handle = reinterpret_cast<HANDLE>(_beginthreadex(nullptr, 0, &ThreadPool::ThreadFunction, this, 0, &id));
-			m_threads.push_back(std::make_pair(id, handle));
+			std::thread thread(&ThreadPool::Loop, this);
+			m_threads.push_back(std::move(thread));
 		}
 	}
 	catch (const std::exception&)
@@ -61,21 +60,24 @@ void ThreadPool::Finalizing()
 
 void ThreadPool::DeleteTasks()
 {
-	/*for (TaskBase* pCurrent = m_pFirst; nullptr != pCurrent;)
+	for (TaskEx* pCurrent = m_pFirst; nullptr != pCurrent;)
 	{
-		TaskBase* pTemp = pCurrent;
-		pCurrent = pCurrent->GetNext();
+		TaskEx* pTemp = pCurrent;
+		pCurrent = pCurrent->Link;
 		delete pTemp;
 	}
 	m_pFirst = nullptr;
-	m_pLast = nullptr;*/
+	m_pLast = nullptr;
 }
 
 void ThreadPool::Join()
 {
-	for (const auto& element : m_threads)
+	for (auto& element : m_threads)
 	{
-		WaitForSingleObject(element.second, INFINITE);
+		if (element.joinable())
+		{
+			element.join();
+		}
 	}
 	m_threads.clear();
 }
@@ -90,7 +92,7 @@ void ThreadPool::AddTask(TaskEx* pTask)
 		pTask->Waiter->Acquire();
 	}
 
-	m_synchronizer.Acquire();
+	m_synchronizer.lock();
 	if (nullptr == m_pFirst)
 	{
 		assert(nullptr == m_pLast);
@@ -102,7 +104,7 @@ void ThreadPool::AddTask(TaskEx* pTask)
 		m_pLast->Link = pTask;
 		m_pLast = pTask;
 	}
-	m_synchronizer.Release();
+	m_synchronizer.unlock();
 	Release();
 }
 
@@ -126,7 +128,7 @@ ThreadPool::TaskEx* ThreadPool::WaitFor()
 	int32_t counter = m_counter.fetch_sub(1);
 	if (counter < 1)
 	{
-		m_event.WaitFor();
+		m_event.Acquire();
 	}
 
 	if (!m_continue)
@@ -134,7 +136,7 @@ ThreadPool::TaskEx* ThreadPool::WaitFor()
 		return nullptr;
 	}
 
-	m_synchronizer.Acquire();
+	m_synchronizer.lock();
 
 	TaskEx* result = m_pFirst;
 
@@ -147,16 +149,9 @@ ThreadPool::TaskEx* ThreadPool::WaitFor()
 		}
 	}
 
-	m_synchronizer.Release();
+	m_synchronizer.unlock();
 
 	return result;
-}
-
-uint32_t ThreadPool::ThreadFunction(void* pThis)
-{
-	ThreadPool* pThreadPool = reinterpret_cast<ThreadPool*>(pThis);
-	pThreadPool->Loop();
-	return 0;
 }
 
 void ThreadPool::Loop()
@@ -170,27 +165,16 @@ void ThreadPool::Loop()
 
 void ThreadPool::Step(TaskEx* pTask)
 {
-	__try
+	try
 	{
-		DoStep(pTask);
+		pTask->Invoke();
 	}
-	__except (EXCEPTION_EXECUTE_HANDLER)
+	catch(...)
 	{
 	}
 
 	if (nullptr != pTask->Waiter)
 	{
 		pTask->Waiter->Release();
-	}
-}
-
-void ThreadPool::DoStep(TaskEx* pTask)
-{
-	try
-	{
-		pTask->Invoke();
-	}
-	catch (const std::exception&)
-	{
 	}
 }

@@ -97,5 +97,5 @@ void BinEntry::Format(std::ostream& stream) const
 
 void BinEntry::AcquireCurrentTime()
 {
-	GetSystemTimeAsFileTime(reinterpret_cast<FILETIME*>(&TimeStamp));
+	GetSystemTimeAsFileTime(reinterpret_cast<FILETIME*>(&TimePoint));
 }

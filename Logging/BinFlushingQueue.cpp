@@ -14,15 +14,12 @@ namespace
 
 BinFlushingQueue::BinFlushingQueue() : m_continue(true), m_event(0, 1)
 {
-	Delegate<void()> func(this, &BinFlushingQueue::Loop);
-	m_thread.Invoke(func);
+	m_thread = std::thread(&BinFlushingQueue::Loop, this);
 }
 
 BinFlushingQueue::~BinFlushingQueue()
 {
-	m_continue = false;
-	m_event.Release();
-	m_thread.Finalize();
+	Stop();
 }
 
 void BinFlushingQueue::Add(BinLogger* pLogger)
@@ -49,12 +46,15 @@ void BinFlushingQueue::Stop()
 {
 	m_continue = false;
 	m_event.Release();
-	m_thread.Finalize();
+	if (m_thread.joinable())
+	{
+		m_thread.join();
+	}
 }
 
 void BinFlushingQueue::Loop()
 {
-	for (; m_continue; m_event.WaitFor(cSleepIntervalInMs))
+	for (; m_continue; m_event.AcquireInMs(cSleepIntervalInMs))
 	{
 		Flush();
 	}

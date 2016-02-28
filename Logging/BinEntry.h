@@ -13,7 +13,7 @@ public:
 
 public:
 	const char* Type;
-	uint64_t TimeStamp;
+	SystemClock::time_point TimePoint;
 	uint32_t ThreadId;
 
 public:

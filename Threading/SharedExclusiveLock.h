@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "Semaphore.h"
+#include "SysSemaphore.h"
 
 /// <summary>
 /// Supports at least 1024 threads
@@ -26,8 +26,8 @@ public:
 
 private:
 	volatile LONG m_value;
-	Semaphore m_sharedWakeEvent;
-	Semaphore m_exclusiveWakeEvent;
+	SysSemaphore m_sharedWakeEvent;
+	SysSemaphore m_exclusiveWakeEvent;
 };
 
 // Many threads can shared acquire in the same time.

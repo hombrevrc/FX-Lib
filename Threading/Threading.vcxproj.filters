@@ -53,9 +53,6 @@
     <ClInclude Include="ThreadPool.h">
       <Filter>_Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Semaphore.h">
-      <Filter>_Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>_Headers</Filter>
     </ClInclude>
@@ -83,6 +80,21 @@
     <ClInclude Include="StackTrace.h">
       <Filter>StackTrace\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Functions.h">
+      <Filter>_Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Functions.Windows.hpp">
+      <Filter>_Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Functions.Linux.hpp">
+      <Filter>_Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="StdSemaphore.h">
+      <Filter>_Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SysSemaphore.h">
+      <Filter>_Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -98,9 +110,6 @@
       <Filter>_Sources</Filter>
     </ClCompile>
     <ClCompile Include="SharedExclusiveLock.cpp">
-      <Filter>_Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Semaphore.cpp">
       <Filter>_Sources</Filter>
     </ClCompile>
     <ClCompile Include="TaskWaiter.cpp">
@@ -125,6 +134,15 @@
       <Filter>StackTrace\Sources</Filter>
     </ClCompile>
     <ClCompile Include="StackTraceData.cpp">
+      <Filter>_Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Functions.cpp">
+      <Filter>_Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="StdSemaphore.cpp">
+      <Filter>_Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SysSemaphore.cpp">
       <Filter>_Sources</Filter>
     </ClCompile>
   </ItemGroup>
