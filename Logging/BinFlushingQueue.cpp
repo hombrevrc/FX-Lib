@@ -54,7 +54,7 @@ void BinFlushingQueue::Stop()
 
 void BinFlushingQueue::Loop()
 {
-	for (; m_continue; m_event.WaitFor(cSleepIntervalInMs))
+	for (; m_continue; m_event.AcquireInMs(cSleepIntervalInMs))
 	{
 		Flush();
 	}

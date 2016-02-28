@@ -71,7 +71,7 @@ void SharedExclusiveLock::AcquireShared()
 			if (InterlockedCompareExchange(&m_value, value + LockSharedWaitersIncrement, value) == value)
 			{
 				// Go to sleep.
-				m_sharedWakeEvent.WaitFor();
+				m_sharedWakeEvent.Acquire();
 				// Go back and try again.
 				continue;
 			}
@@ -137,7 +137,7 @@ void SharedExclusiveLock::AcquireExclusive()
 			if (InterlockedCompareExchange(&m_value, value + LockExclusiveWaitersIncrement, value) == value)
 			{
 				// Go to sleep.
-				m_exclusiveWakeEvent.WaitFor();
+				m_exclusiveWakeEvent.Acquire();
 
 				// Acquire the lock.
 				// At this point *no one* should be able to steal the lock from us.

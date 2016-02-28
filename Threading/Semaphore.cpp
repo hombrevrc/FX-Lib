@@ -40,14 +40,20 @@ void Semaphore::Release(const uint32_t count)
 	ReleaseSemaphore(m_handle, count, nullptr);
 }
 
-bool Semaphore::WaitFor(const uint32_t timeoutInMs)
+bool Semaphore::AcquireInMs(const std::chrono::milliseconds timeoutInMs)
+{
+	const bool result = AcquireInMs(static_cast<uint32_t>(timeoutInMs.count()));
+	return result;
+}
+
+bool Semaphore::AcquireInMs(const uint32_t timeoutInMs)
 {
 	const DWORD status = WaitForSingleObject(m_handle, static_cast<DWORD>(timeoutInMs));
 	const bool result = (WAIT_OBJECT_0 == status);
 	return result;
 }
 
-void Semaphore::WaitFor()
+void Semaphore::Acquire()
 {
-	WaitFor(INFINITE);
+	AcquireInMs(INFINITE);
 }

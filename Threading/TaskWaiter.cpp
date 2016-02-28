@@ -42,7 +42,7 @@ void TaskWaiter::Join()
 	if (0 != state)
 	{
 		Semaphore& event = GetEvent();
-		event.WaitFor();
+		event.Acquire();
 	}
 
 	m_state.fetch_and(~cNeedToWakeUp);

@@ -126,7 +126,7 @@ ThreadPool::TaskEx* ThreadPool::WaitFor()
 	int32_t counter = m_counter.fetch_sub(1);
 	if (counter < 1)
 	{
-		m_event.WaitFor();
+		m_event.Acquire();
 	}
 
 	if (!m_continue)

@@ -16,8 +16,9 @@ public:
 public:
 	void Release();
 	void Release(const uint32_t count);
-	void WaitFor();
-	bool WaitFor(const uint32_t timeoutInMs);
+	void Acquire();
+	bool AcquireInMs(const std::chrono::milliseconds timeoutInMs);
+	bool AcquireInMs(const uint32_t timeoutInMs);
 
 private:
 	HANDLE m_handle;

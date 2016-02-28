@@ -32,7 +32,7 @@ void Timer::MainLoop()
 {
 	uint32_t timeoutInMs = 0;
 
-	for (; m_continue; m_event.WaitFor(timeoutInMs))
+	for (; m_continue; m_event.AcquireInMs(timeoutInMs))
 	{
 		timeoutInMs = Loop();
 	}
