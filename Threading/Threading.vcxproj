@@ -159,6 +159,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CriticalSection.h" />
+    <ClInclude Include="Functions.h" />
+    <ClInclude Include="Functions.Linux.hpp" />
+    <ClInclude Include="Functions.Windows.hpp" />
     <ClInclude Include="LiteSingleton.h" />
     <ClInclude Include="LogicalSingleton.h" />
     <ClInclude Include="Monitor.h" />
@@ -171,6 +174,7 @@
     <ClInclude Include="StackTrace.h" />
     <ClInclude Include="StackTraceData.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StdSemaphore.h" />
     <ClInclude Include="SymManager.h" />
     <ClInclude Include="SymManagerHelpers.h" />
     <ClInclude Include="targetver.h" />
@@ -182,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CriticalSection.cpp" />
+    <ClCompile Include="Functions.cpp" />
     <ClCompile Include="LogicalSingleton.cpp" />
     <ClCompile Include="Optex.cpp" />
     <ClCompile Include="Semaphore.cpp" />
@@ -196,6 +201,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="StdSemaphore.cpp" />
     <ClCompile Include="SymManager.cpp" />
     <ClCompile Include="TaskWaiter.cpp" />
     <ClCompile Include="ThreadPool.cpp" />

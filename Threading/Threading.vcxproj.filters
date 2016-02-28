@@ -83,6 +83,18 @@
     <ClInclude Include="StackTrace.h">
       <Filter>StackTrace\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Functions.h">
+      <Filter>_Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Functions.Windows.hpp">
+      <Filter>_Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Functions.Linux.hpp">
+      <Filter>_Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="StdSemaphore.h">
+      <Filter>_Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -125,6 +137,12 @@
       <Filter>StackTrace\Sources</Filter>
     </ClCompile>
     <ClCompile Include="StackTraceData.cpp">
+      <Filter>_Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Functions.cpp">
+      <Filter>_Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="StdSemaphore.cpp">
       <Filter>_Sources</Filter>
     </ClCompile>
   </ItemGroup>
