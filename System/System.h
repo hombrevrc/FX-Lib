@@ -6,6 +6,9 @@
 
 #include "Sal.h"
 #include "Std.h"
+
+
+#ifdef FX_LIB_WINDOWS
 #include "Types.h"
 #include "Nullable.h"
 #include "Delegate.h"
@@ -19,3 +22,13 @@
 #include "Timeout.h"
 #include "Enumeration.h"
 #include "FileSystem.h"
+
+#endif
+
+#ifdef FX_LIB_LINUX
+#include "Types.h"
+#include "Nullable.h"
+//#include "Delegate.h"
+#include "Functions.h"
+#include "FileSystem.h"
+#endif
