@@ -10,6 +10,16 @@
 #endif
 
 
+#ifdef FX_LIB_LINUX
+namespace
+{
+    uint32_t GetCurrentThreadId()
+    {
+        return 0;
+    }
+}
+#endif
+
 BinEntry::BinEntry(const char* type, const uint32_t size) :
 	Link(nullptr), Type(type), m_pData(nullptr), m_size(), m_capacity(size)
 {
@@ -73,6 +83,8 @@ const uint8_t* BinEntry::DoAStringFormat(const uint8_t* pData, std::ostream& str
 	return result;
 }
 
+#ifdef FX_LIB_WINDOWS
+
 const uint8_t* BinEntry::DoWStringFormat(const uint8_t* pData, std::ostream& stream)
 {
 	const wchar_t* pTypedData = reinterpret_cast<const wchar_t*>(pData);
@@ -81,6 +93,8 @@ const uint8_t* BinEntry::DoWStringFormat(const uint8_t* pData, std::ostream& str
 	const uint8_t* result = pData + 1 + length;
 	return result;
 }
+
+#endif
 
 void BinEntry::Format(std::ostream& stream) const
 {
@@ -97,5 +111,5 @@ void BinEntry::Format(std::ostream& stream) const
 
 void BinEntry::AcquireCurrentTime()
 {
-	GetSystemTimeAsFileTime(reinterpret_cast<FILETIME*>(&TimePoint));
+	TimePoint = SystemClock::now();
 }

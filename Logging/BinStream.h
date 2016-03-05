@@ -35,16 +35,23 @@ public:
 		m_pEntry->Write(st);
 		return *this;
 	}
+
 	inline BinStream& operator << (const std::string& st)
 	{
 		m_pEntry->Write(st);
 		return *this;
 	}
+
+    #ifdef FX_LIB_WINDOWS
+
 	inline BinStream& operator << (const std::wstring& st)
 	{
 		m_pEntry->Write(st);
 		return *this;
 	}
+
+    #endif
+
 	inline BinStream& operator << (std::ostream& (*arg)(std::ostream&))
 	{
 		m_pEntry->Write(arg);

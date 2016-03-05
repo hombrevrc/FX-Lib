@@ -59,3 +59,4 @@ namespace std
 
 
 #include "../System/System.h"
+#include "../Logging/Logging.h"

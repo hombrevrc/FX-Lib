@@ -32,10 +32,14 @@ public:
 	{
 		DoWrite(arg);
 	}
-	void Write(const std::string& st);
+
+    void Write(const std::string& st);
+
+    #ifdef FX_LIB_WINDOWS
 	void Write(const std::wstring& st);
 	void Write(std::ostream& (*arg)(std::ostream&));
 	void Write(std::ios_base& (*arg)(std::ios_base&));
+    #endif
 
 public:
 	void Write(FormatFunc func, const void* pData, const uint32_t size);
@@ -46,10 +50,11 @@ private:
 		const uint32_t newSize = m_size + sizeof(FormatFunc) + sizeof(T);
 		if ((newSize <= m_capacity) || ReallocIfNeeded(newSize))
 		{
-			FormatFunc* pFunc = reinterpret_cast<FormatFunc*>(m_pData + m_size);
+            uint8_t * pData = m_pData + m_size;
+			FormatFunc* pFunc = reinterpret_cast<FormatFunc*>(pData);
 			*pFunc = &BinEntry::DoFormat<T>;
-			T* pData = reinterpret_cast<T*>(1 + pFunc);
-			*pData = arg;
+			T* pTypedData = reinterpret_cast<T*>(pData + sizeof(FormatFunc));
+			*pTypedData = arg;
 			m_size = newSize;
 		}
 	}
@@ -63,7 +68,10 @@ private:
 	}
 
 	static const uint8_t* DoAStringFormat(const uint8_t* pData, std::ostream& stream);
+
+    #ifdef FX_LIB_WINDOWS
 	static const uint8_t* DoWStringFormat(const uint8_t* pData, std::ostream& stream);
+    #endif
 
 private:
 	bool ReallocIfNeeded(const uint32_t newSize);
@@ -83,8 +91,10 @@ inline uint32_t BinEntry::GetSize() const
 
 inline void BinEntry::Write(const std::string& st)
 {
-	Write(&BinEntry::DoAStringFormat, st.c_str(), static_cast<uint32_t>(1 + st.length()));
+    Write(&BinEntry::DoAStringFormat, st.c_str(), static_cast<uint32_t>(1 + st.length()));
 }
+
+#ifdef FX_LIB_WINDOWS
 
 inline void BinEntry::Write(const std::wstring& st)
 {
@@ -100,5 +110,7 @@ inline void BinEntry::Write(std::ios_base& (*arg)(std::ios_base&))
 {
 	DoWrite(arg);
 }
+
+#endif
 
 #pragma endregion

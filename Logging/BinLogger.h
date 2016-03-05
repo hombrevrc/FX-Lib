@@ -33,8 +33,8 @@ private:
 	const std::tstring m_filename;
 
 private:
-	std::atomic<bool> m_synchronousMode = false;
-	std::atomic<BinEntry*> m_trail = nullptr;
+	std::atomic<bool> m_synchronousMode;
+	std::atomic<BinEntry*> m_trail;
 	std::mutex m_synchronizer;
 
 private:

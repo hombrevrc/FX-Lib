@@ -4,12 +4,14 @@
 
 #pragma once
 
+
+#include "StdSemaphore.h"
+#include "PhysicalSingleton.h"
+
+#ifdef FX_LIB_WINDOWS
 #include "ThreadPool.h"
 #include "PhysicalSingleton.h"
 #include "LiteSingleton.h"
 #include "Timer.h"
-#include "StdSemaphore.h"
-
-#ifdef FX_LIB_WINDOWS
 #include "ExceptionStackTrace.h"
 #endif

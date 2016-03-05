@@ -68,6 +68,7 @@ void BinFlushingQueue::SwithchToSynchronousMode()
 	for (auto element : m_loggers)
 	{
 		element->SwitchToSynchronousMode();
+        element->Flush();
 	}
 	m_loggers.clear();
 }

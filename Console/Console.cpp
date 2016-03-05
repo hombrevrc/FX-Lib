@@ -3,11 +3,18 @@
 //==============================================================
 
 #include "stdafx.h"
-
-
+#include "../Logging/BinLogger.h"
 
 
 int main()
 {
-	std::cout<<GetStartupDirectory()<<std::endl;
+    std::filesystem::path path = GetStartupDirectory();
+    BinLogger logger(path, "test");
+    BinStream("evet") << std::string("test") >> logger;
+    BinStream("evet") << std::string("test") >> logger;
+    BinStream("evet") << std::string("test") >> logger;
+    BinStream("evet") << std::string("test") >> logger;
+    BinStream("evet") << std::string("test") >> logger;
+    BinLogger::StopFlushingQueue();
+    //std::cin.get();
 }

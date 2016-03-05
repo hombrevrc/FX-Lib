@@ -9,9 +9,10 @@ class SystemException : public std::runtime_error
 public:
 	SystemException(const char* message);
 	SystemException(const std::string& message);
+    virtual ~SystemException();
 
 public:
-	virtual char const* what() const override;
+	virtual char const* what() const throw() override;
 
 public:
 	const uint32_t GetErrorCode() const;

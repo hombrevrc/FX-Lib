@@ -14,7 +14,7 @@
 #include "Delegate.h"
 #include "Time.h"
 #include "Type.h"
-#include "SystemException.h"
+
 #include "TimeoutException.h"
 #include "SharedMemory.h"
 #include "Functions.h"
@@ -22,9 +22,11 @@
 #include "Timeout.h"
 #include "Enumeration.h"
 #include "FileSystem.h"
+#endif
+
+#include "SystemException.h"
 #include "SystemClock.h"
 #include "DateTime.h"
-#endif
 
 #ifdef FX_LIB_LINUX
 #include "Types.h"

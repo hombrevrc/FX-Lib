@@ -15,32 +15,8 @@ namespace
 	PhysicalSingleton<BinLogger> gGlobalLogger;
 }
 
-namespace
-{
-	std::ostream& operator << (std::ostream& stream, FILETIME fTime)
-	{
-		SYSTEMTIME sTime;
-		ZeroMemory(&sTime, sizeof(sTime));
-		if(!FileTimeToSystemTime(&fTime, &sTime))
-		{
-			throw std::runtime_error("Couldn't convert file time to system time");
-		}
-
-		stream << setw(4) << setfill('0') << sTime.wYear << '-';
-		stream << setw(2) << setfill('0') << sTime.wMonth << '-';
-		stream << setw(2) << setfill('0') << sTime.wDay;
-		stream << ' ';
-		stream << setw(2) << setfill('0') << sTime.wHour << ':';
-		stream << setw(2) << setfill('0') << sTime.wMinute << ':';
-		stream << setw(2) << setfill('0') << sTime.wSecond << ".";
-		stream << setw(3) << setfill('0') << sTime.wMilliseconds;
-
-		return stream;
-	}
-}
-
 BinLogger::BinLogger(const std::filesystem::path& directory, const std::tstring& filename) :
-	m_directory(directory), m_filename(filename)
+	m_directory(directory), m_filename(filename), m_synchronousMode(false), m_trail(nullptr)
 {
 	if (!std::filesystem::create_directories(m_directory))
 	{
@@ -122,14 +98,10 @@ void BinLogger::Flush()
 void BinLogger::Write(BinEntry& entry)
 {
 	try
-	{
-		ReopenIfNeeded(entry.TimePoint);
-		SYSTEMTIME time;
-		ZeroMemory(&time, sizeof(time));
-		FileTimeToSystemTime(reinterpret_cast<FILETIME*>(&entry.TimePoint), &time);
-
-		std::ostringstream stream;
-		stream << reinterpret_cast<FILETIME&>(entry.TimePoint);
+    {
+        ReopenIfNeeded(entry.TimePoint);
+        std::ostringstream stream;
+        stream << DateTime(entry.TimePoint);
 		stream << ", " << entry.ThreadId;
 		if (nullptr != entry.Type)
 		{
@@ -157,7 +129,13 @@ void BinLogger::ReopenIfNeeded(SystemClock::time_point tp)
 	DateTime dt(tp);
 
 	tostringstream stream;
-	stream << dt.Year << '-' << dt.Month << '-' << dt.Day << '_' << m_filename << ".log";
+    stream << std::setw(4) << std::setfill('0') << dt.Year;
+    stream << '-';
+    stream << std::setw(2) << std::setfill('0') << dt.Month;
+    stream << '-';
+    stream << std::setw(2) << std::setfill('0') << dt.Day;
+    stream << '_' << m_filename << ".log";
+
 	tstring filename = stream.str();
 	std::filesystem::path path = m_directory / filename;
 

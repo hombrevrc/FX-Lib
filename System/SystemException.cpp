@@ -5,12 +5,25 @@
 #include "stdafx.h"
 #include "SystemException.h"
 
+#ifdef FX_LIB_WINDOWS
 
 namespace
 {
 	const DWORD cFormatMessageFlags = FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS;
 }
 
+#endif
+
+#ifdef FX_LIB_LINUX
+namespace
+{
+    const uint32_t GetLastError()
+    {
+        return errno;
+    }
+}
+
+#endif
 
 SystemException::SystemException(const char* message) : std::runtime_error(message), m_errorCode(GetLastError())
 {
@@ -22,7 +35,11 @@ SystemException::SystemException(const std::string& message) : std::runtime_erro
 	FormatMessage(message.c_str());
 }
 
-char const* SystemException::what() const
+SystemException::~SystemException()
+{
+}
+
+char const* SystemException::what() const throw()
 {
 	return m_what.c_str();
 }
@@ -31,6 +48,8 @@ const uint32_t SystemException::GetErrorCode() const
 {
 	return m_errorCode;
 }
+
+#ifdef FX_LIB_WINDOWS
 
 void SystemException::FormatMessage(const char* message)
 {
@@ -51,3 +70,18 @@ void SystemException::FormatMessage(const char* message)
 	}
 	m_what = stream.str();
 }
+
+#endif
+
+
+#ifdef FX_LIB_LINUX
+
+void SystemException::FormatMessage(const char* message)
+{
+	std::ostringstream stream;
+	stream << message << ". errno = " << m_errorCode;
+	m_what = stream.str();
+}
+
+#endif
+

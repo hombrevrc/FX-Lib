@@ -9,6 +9,10 @@
 
 #include "../System/Sal.h"
 
+#ifdef FX_LIB_LINUX
+#include <pthread.h>
+#endif
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -22,7 +26,10 @@
 #include <unordered_map>
 #include <thread>
 #include <mutex>
-#include <filesystem>
+#include <atomic>
+#include <experimental/filesystem>
+#include <condition_variable>
+#include <cstring>
 
 #ifdef FX_LIB_WINDOWS
 #include <windows.h>
@@ -50,5 +57,6 @@ namespace std
 #undef max
 #endif
 
+#include "../System/Sal.h"
 #include "../System/System.h"
 #include "../Threading/Threading.h"
