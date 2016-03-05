@@ -9,7 +9,7 @@
 int main()
 {
     std::filesystem::path path = GetStartupDirectory();
-    BinLogger logger(path, "test");
+    BinLogger logger(path, L"test");
     BinStream("evet") << std::string("test") >> logger;
     BinStream("evet") << std::string("test") >> logger;
     BinStream("evet") << std::string("test") >> logger;

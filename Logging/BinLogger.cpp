@@ -129,12 +129,12 @@ void BinLogger::ReopenIfNeeded(SystemClock::time_point tp)
 	DateTime dt(tp);
 
 	tostringstream stream;
-    stream << std::setw(4) << std::setfill('0') << dt.Year;
-    stream << '-';
-    stream << std::setw(2) << std::setfill('0') << dt.Month;
-    stream << '-';
-    stream << std::setw(2) << std::setfill('0') << dt.Day;
-    stream << '_' << m_filename << ".log";
+	stream << std::setw(4) << std::setfill(L'0') << dt.Year;
+	stream << '-';
+	stream << std::setw(2) << std::setfill(L'0') << dt.Month;
+	stream << '-';
+	stream << std::setw(2) << std::setfill(L'0') << dt.Day;
+	stream << '_' << m_filename << ".log";
 
 	tstring filename = stream.str();
 	std::filesystem::path path = m_directory / filename;

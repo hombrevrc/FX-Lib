@@ -31,6 +31,8 @@
 
 
 #include "Std.h"
+#include <iomanip>
+
 
 #ifdef FX_LIB_WINDOWS
 #ifdef _DEBUG

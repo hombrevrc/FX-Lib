@@ -67,7 +67,7 @@ uint32_t Timer::Step()
 
 		if (now < it->first)
 		{
-			const uint64_t interval = std::min(it->first - now, cMaxTimeoutInMs);
+			const uint64_t interval = std::min<uint64_t>(it->first - now, cMaxTimeoutInMs);
 			return static_cast<uint32_t>(interval);
 		}
 

@@ -2,7 +2,6 @@
 // Copyright (c) 2016 by Viktar Marmysh mailto:marmysh@gmail.com
 //==============================================================
 
-#include <iomanip>
 #include "stdafx.h"
 #include "DateTime.h"
 
@@ -47,23 +46,23 @@ DateTime::DateTime(SystemClock::time_point tp)
 
 std::ostream& operator << (std::ostream& stream, const DateTime& dt)
 {
-    stream << std::setw(4) << std::setfill('0') << dt.Year;
-    stream << '-';
-    stream << std::setw(2) << std::setfill('0') << dt.Month;
-    stream << '-';
-    stream << std::setw(2) << std::setfill('0') << dt.Day;
+	stream << std::setw(4) << std::setfill('0') << dt.Year;
+	stream << '-';
+	stream << std::setw(2) << std::setfill('0') << dt.Month;
+	stream << '-';
+	stream << std::setw(2) << std::setfill('0') << dt.Day;
 
-    stream << ' ';
+	stream << ' ';
 
-    stream << std::setw(2) << std::setfill('0') << dt.Hour;
-    stream << ':';
-    stream << std::setw(2) << std::setfill('0') << dt.Minute;
-    stream << ':';
-    stream << std::setw(2) << std::setfill('0') << dt.Second;
-    stream << '.';
-    stream << std::setw(3) << std::setfill('0') << dt.Millisecond;
-    stream << '.';
-    stream << std::setw(3) << std::setfill('0') << dt.Microsecond;
+	stream << std::setw(2) << std::setfill('0') << dt.Hour;
+	stream << ':';
+	stream << std::setw(2) << std::setfill('0') << dt.Minute;
+	stream << ':';
+	stream << std::setw(2) << std::setfill('0') << dt.Second;
+	stream << '.';
+	stream << std::setw(3) << std::setfill('0') << dt.Millisecond;
+	stream << '.';
+	stream << std::setw(3) << std::setfill('0') << dt.Microsecond;
 
-    return stream;
+	return stream;
 }

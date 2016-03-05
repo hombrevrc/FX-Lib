@@ -22,6 +22,7 @@
 #include "Timeout.h"
 #include "Enumeration.h"
 #include "FileSystem.h"
+#include "TaskBase.h"
 #endif
 
 #include "SystemException.h"
