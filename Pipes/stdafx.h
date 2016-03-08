@@ -14,6 +14,9 @@
 #include <thread>
 #include <algorithm>
 #include <assert.h>
+#include <map>
+#include <vector>
+#include <unordered_map>
 
 #ifdef min
 #undef min
@@ -23,5 +26,7 @@
 #undef max
 #endif
 
+#include "../System/Sal.h"
 #include "../System/System.h"
+#include "../Threading/Threading.h"
 #include "../Remoting/Remoting.h"

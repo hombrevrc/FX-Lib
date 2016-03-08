@@ -25,7 +25,7 @@ PipeAcceptor::~PipeAcceptor()
 IChannel* PipeAcceptor::Accept()
 {
 	ResetEvent(m_event);
-	Pipe pipe = Pipe::CreateWriter(m_name);
+	Pipe pipe = Pipe::CreateAcceptor(m_name);
 
 	if (pipe.Accept(m_event))
 	{

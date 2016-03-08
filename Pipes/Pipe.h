@@ -15,6 +15,7 @@ public:
 	~Pipe();
 
 public:
+	static Pipe CreateAcceptor(const std::wstring& name);
 	static Pipe CreateWriter(const std::wstring& name);
 	static Pipe CreateReader(const std::wstring& name);
 	static Pipe Open(const std::wstring& name, const DWORD mode, const uint32_t timeoutInMs);

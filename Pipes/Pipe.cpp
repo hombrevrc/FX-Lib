@@ -73,6 +73,20 @@ void Pipe::Finalize()
 	ZeroMemory(&m_overlapped, sizeof(m_overlapped));
 }
 
+Pipe Pipe::CreateAcceptor(const std::wstring& name)
+{
+	std::wstring st = cPipePrefix + name;
+	HANDLE pipe = CreateNamedPipe(st.c_str(), cWriterMode, cPipeMode, PIPE_UNLIMITED_INSTANCES, PIPE_BUFFER_SIZE, PIPE_BUFFER_SIZE, INFINITE, nullptr);
+	if (INVALID_HANDLE_VALUE == pipe)
+	{
+		throw SystemException("Couldn't create a new named pipe");
+	}
+
+	Pipe result;
+	result.m_pipe = pipe;
+	return result;
+}
+
 Pipe Pipe::CreateWriter(const std::wstring& name)
 {
 	std::wstring st = cPipePrefix + name;
