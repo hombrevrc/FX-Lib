@@ -40,7 +40,7 @@ void StdSemaphore::Construct(const uint32_t initialCount, const uint32_t maxCoun
 void StdSemaphore::Acquire()
 {
 	std::unique_lock<std::mutex> lk(m_mutex);
-	if (0 == m_count)
+	while (0 == m_count)
 	{
 		m_condition.wait(lk);
 	}
@@ -51,10 +51,11 @@ void StdSemaphore::Acquire()
 
 bool StdSemaphore::AcquireInMs(std::chrono::milliseconds timeoutInMs)
 {
+	Timeout timeout(timeoutInMs);
 	std::unique_lock<std::mutex> lk(m_mutex);
-	if (0 == m_count)
+	while (0 == m_count)
 	{
-		const std::cv_status status = m_condition.wait_for(lk, timeoutInMs);
+		const std::cv_status status = m_condition.wait_for(lk, timeout.ToInterval());
 		if (std::cv_status::timeout == status)
 		{
 			return false;
@@ -75,17 +76,10 @@ bool StdSemaphore::AcquireInMs(const uint32_t timeoutInMs)
 
 void StdSemaphore::Release()
 {
-	bool wakeUp = false;
+	std::unique_lock<std::mutex> lk(m_mutex);
+	if (m_count < m_maxCount)
 	{
-		std::lock_guard<std::mutex> lk(m_mutex);
-		if (m_count < m_maxCount)
-		{
-			++m_count;
-			wakeUp = true;
-		}
-	}
-	if (wakeUp)
-	{
+		++m_count;
 		m_condition.notify_one();
 	}
 }
