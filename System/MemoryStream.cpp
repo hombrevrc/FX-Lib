@@ -140,3 +140,29 @@ void MemoryStream::EnsureCapacity(const uint32_t totalSize)
 	m_data = newData;
 	m_capacity = newCapacity;
 }
+
+std::wstring ReadWString(MemoryStream& stream)
+{
+	uint32_t size = 0;
+	stream.Read(sizeof(size), &size);
+	std::wstring result;
+
+	result.resize(size);
+	stream.Read(sizeof(wchar_t) * size, const_cast<wchar_t*>(result.data()));
+	return result;
+}
+
+namespace
+{
+	template<typename T> T ReadType(MemoryStream& stream)
+	{
+		T result = T();
+		stream.Read(sizeof(T), &result);
+		return result;
+	}
+}
+
+double ReadDouble(MemoryStream& stream)
+{
+	return ReadType<double>(stream);
+}

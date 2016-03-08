@@ -26,9 +26,6 @@
     <ClInclude Include="IAcceptor.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="IChannel.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="IConnector.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
@@ -38,12 +35,42 @@
     <ClInclude Include="ChannelState.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Channel.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Delegates.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="IChannel.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Channels.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="EndPoint.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Server.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Channel.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Channels.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="EndPoint.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

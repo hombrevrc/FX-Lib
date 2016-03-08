@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include "IConnector.h"
-#include "IAcceptor.h"
-#include "Server.h"
-#include "Channel.h"
-#include "Client.h"
+class Server;
+class Channel;
+
+typedef Delegate<void (Server& server, Channel& channel)> ChannelHandler;
+typedef Delegate<void (Channel& channel, const std::shared_ptr<MemoryStream>& stream)> MessageHandler;

@@ -44,3 +44,6 @@ private:
 private:
 	uint8_t m_buffer[4096];
 };
+
+std::wstring ReadWString(MemoryStream& stream);
+double ReadDouble(MemoryStream& stream);

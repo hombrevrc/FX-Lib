@@ -4,8 +4,11 @@
 
 #pragma once
 
-#include "IConnector.h"
-#include "IAcceptor.h"
-#include "Server.h"
-#include "Channel.h"
-#include "Client.h"
+class Channels
+{
+public:
+	Channels();
+	Channels(const Channels&) = delete;
+	Channels& operator = (const Channels&) = delete;
+	~Channels();
+};

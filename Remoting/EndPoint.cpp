@@ -2,10 +2,10 @@
 // Copyright (c) 2016 by Viktar Marmysh mailto:marmysh@gmail.com
 //==============================================================
 
-#pragma once
+#include "stdafx.h"
+#include "EndPoint.h"
 
-#include "IConnector.h"
-#include "IAcceptor.h"
-#include "Server.h"
-#include "Channel.h"
-#include "Client.h"
+
+EndPoint::~EndPoint()
+{
+}

@@ -64,3 +64,15 @@
 *.opendb
 /Console/Release.x64
 /Console/Debug.x64
+/Sal/Debug.x64
+/Console/Debug.x86
+/Remoting/Release.x86
+/Remoting/Debug.x86
+/Sal/Release.x86
+/Sal/Debug.x86
+/Console/Release.x86
+/Sal/Release.x64
+/Pipes/Debug.x86
+\
+/Pipes/Release.x86/Pipes.tlog
+/Pipes/Release.x86

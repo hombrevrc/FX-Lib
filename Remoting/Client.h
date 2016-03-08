@@ -4,28 +4,20 @@
 
 #pragma once
 
-#include "IAcceptor.h"
+#include "IConnector.h"
 #include "EndPoint.h"
 
-class Server : public EndPoint
+class Client : public EndPoint
 {
 public:
-	Server(IAcceptor& acceptor, ThreadPool& threadPool);
-	Server(const Server&) = delete;
-	Server& operator = (const Server&) = delete;
-	~Server();
-
-public:
-	void SetCreateChannelHandler(ChannelHandler handler);
-	void SetDeleteChannelHandler(ChannelHandler handler);
-	void SetMessageHandler(MessageHandler handler);
+	Client(IConnector& connectror, ThreadPool& threadPool);
+	Client(const Client&) = delete;
+	Client& operator = (const Client&) = delete;
+	~Client();
 
 public:
 	void Start();
 	void Stop();
-
-public:
-	bool IsStarted() const;
 
 public:
 	virtual void Initialize(Channel* pChannel) override;
@@ -33,20 +25,26 @@ public:
 	virtual MessageHandler GetMessageHandler() override;
 	virtual ThreadPool& GetThreadPool() override;
 
-private:
-	void Loop();
+public:
+	void SetMessageHandler(MessageHandler handler);
 
 private:
-	mutable std::mutex m_synchronizer;
-	IAcceptor& m_acceptor;
+	void Loop();
+	void Step();
+	void DoStep();
+	void Finalize();
+
+private:
+	IConnector& m_connectror;
 	ThreadPool& m_threadPool;
 
 private:
-	ChannelHandler m_createChannel;
-	ChannelHandler m_deleteChannel;
+	std::mutex m_synchronizer;
 	MessageHandler m_message;
+	Channel* m_pChannel;
 
 private:
 	std::thread m_thread;
-	std::vector<Channel*> m_channels;
+	std::atomic<bool> m_continue;
+	StdSemaphore m_event;
 };
