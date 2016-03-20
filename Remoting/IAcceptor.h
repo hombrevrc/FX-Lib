@@ -4,12 +4,12 @@
 
 #pragma once
 
-#include "IChannel.h"
+#include "ITransport.h"
 
 class IAcceptor
 {
 public:
-	virtual IChannel* Accept() = 0;
+	virtual ITransport* Accept() = 0;
 	virtual void StopAccepting() = 0;
 	virtual ~IAcceptor() {};
 };

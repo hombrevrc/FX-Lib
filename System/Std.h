@@ -20,6 +20,11 @@
 #include <chrono>
 #include <experimental/filesystem>
 #include <mutex>
+#include <map>
+#include <unordered_map>
+#include <atomic>
+#include <vector>
+#include <fstream>
 
 namespace std
 {

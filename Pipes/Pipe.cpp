@@ -269,6 +269,14 @@ bool Pipe::GetOverlappedResult(uint32_t& transferredBytes)
 	{
 		return true;
 	}
+
+	if (ERROR_BROKEN_PIPE == GetLastError())
+	{
+		SystemException ex("Pipe is closed");
+		Finalize();
+		throw ex;
+	}
+
 	return false;
 }
 

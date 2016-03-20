@@ -4,7 +4,7 @@
 
 #include "stdafx.h"
 #include "PipeAcceptor.h"
-#include "PipeChannel.h"
+#include "PipeTransport.h"
 
 
 PipeAcceptor::PipeAcceptor(const std::wstring& name) : m_name(name)
@@ -22,14 +22,14 @@ PipeAcceptor::~PipeAcceptor()
 	CloseHandle(m_event);
 }
 
-IChannel* PipeAcceptor::Accept()
+ITransport* PipeAcceptor::Accept()
 {
 	ResetEvent(m_event);
 	Pipe pipe = Pipe::CreateAcceptor(m_name);
 
 	if (pipe.Accept(m_event))
 	{
-		PipeChannel* result = new PipeChannel(std::move(pipe));
+		PipeTransport* result = new PipeTransport(std::move(pipe));
 		return result;
 	}
 

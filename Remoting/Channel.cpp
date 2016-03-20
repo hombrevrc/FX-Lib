@@ -7,17 +7,25 @@
 #include "Server.h"
 
 
-Channel::Channel(EndPoint& endPoint, IChannel* pChannel) : m_endPoint(endPoint), m_pChannel(pChannel)
+Channel::Channel(EndPoint& endPoint, ITransport* pChannel) : m_endPoint(endPoint), m_pChannel(pChannel), m_continue(true)
 {
 	m_pPending = &m_first;
 	m_pWriting = &m_second;
-
-	Delegate<void()> func(this, &Channel::Run);
-	m_thread.Invoke(func);
+	m_thread = std::thread(&Channel::Run, this);
 }
 
 Channel::~Channel()
 {
+	if (m_isSelfDestruction)
+	{
+		m_thread.detach();
+	}
+	else
+	{
+		m_continue = false;
+		m_pChannel->WakeUp();
+		m_thread.join();
+	}
 }
 
 EndPoint& Channel::GetEndPoint()
@@ -25,7 +33,7 @@ EndPoint& Channel::GetEndPoint()
 	return m_endPoint;
 }
 
-IChannel& Channel::GetTransport()
+ITransport& Channel::GetTransport()
 {
 	return *m_pChannel;
 }
@@ -133,12 +141,7 @@ bool Channel::TryToReadSize()
 	}
 
 	uint8_t* pData = m_message.GetData() + position;
-	int32_t read = m_pChannel->Read(sizeof(uint32_t) - position, pData);
-
-	if (read < 0)
-	{
-		return false;
-	}
+	uint32_t read = m_pChannel->Read(sizeof(uint32_t) - position, pData);
 
 	const uint32_t newPosition = position + read;
 	m_message.SetPosition(newPosition);

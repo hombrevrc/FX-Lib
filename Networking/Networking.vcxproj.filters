@@ -32,6 +32,21 @@
     <ClInclude Include="Socket.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="SocketAcceptor.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketConnector.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketTransport.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketsPair.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketInitializer.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -44,6 +59,21 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Socket.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketAcceptor.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketConnector.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketTransport.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketsPair.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketInitializer.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

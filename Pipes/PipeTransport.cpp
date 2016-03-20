@@ -3,22 +3,22 @@
 //==============================================================
 
 #include "stdafx.h"
-#include "PipeChannel.h"
+#include "PipeTransport.h"
 
 
-PipeChannel::PipeChannel(Pipe&& pipe) : m_pipe(std::move(pipe))
+PipeTransport::PipeTransport(Pipe&& pipe) : m_pipe(std::move(pipe))
 {
 	Construct();
 }
 
-PipeChannel::PipeChannel(Pipe&& reader, Pipe&& writer)
+PipeTransport::PipeTransport(Pipe&& reader, Pipe&& writer)
 {
 	Construct();
 	m_reader.Bind(std::move(reader));
 	m_writer.Bind(std::move(writer));
 }
 
-void PipeChannel::Construct()
+void PipeTransport::Construct()
 {
 	m_event = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	if (nullptr == m_event)
@@ -27,12 +27,12 @@ void PipeChannel::Construct()
 	}
 }
 
-PipeChannel::~PipeChannel()
+PipeTransport::~PipeTransport()
 {
 	CloseHandle(m_event);
 }
 
-void PipeChannel::Accept()
+void PipeTransport::Accept()
 {
 	std::wstring readingId = GenerateGuid();
 	std::wstring writingId = GenerateGuid();
@@ -68,7 +68,7 @@ void PipeChannel::Accept()
 	m_pipe = Pipe();
 }
 
-ChannelState PipeChannel::Join(const bool reading, const bool writing)
+TransportState PipeTransport::Join(const bool reading, const bool writing)
 {
 	if (reading)
 	{
@@ -86,19 +86,19 @@ ChannelState PipeChannel::Join(const bool reading, const bool writing)
 		JoinForWriting();
 	}
 
-	ChannelState result = ChannelState::None;
+	TransportState result = TransportState::None;
 	if (m_reader.CanBeRead())
 	{
-		result = EnumBitwiseOr(result, ChannelState::CanRead);
+		result = EnumBitwiseOr(result, TransportState::CanRead);
 	}
 	if (m_writer.CanBeWritten())
 	{
-		result = EnumBitwiseOr(result, ChannelState::CanWrite);
+		result = EnumBitwiseOr(result, TransportState::CanWrite);
 	}
 	return result;
 }
 
-void PipeChannel::JoinForReading()
+void PipeTransport::JoinForReading()
 {
 	if (!m_reader.CanBeRead())
 	{
@@ -107,7 +107,7 @@ void PipeChannel::JoinForReading()
 	}
 }
 
-void PipeChannel::JoinForWriting()
+void PipeTransport::JoinForWriting()
 {
 	if (!m_writer.CanBeWritten())
 	{
@@ -116,7 +116,7 @@ void PipeChannel::JoinForWriting()
 	}
 }
 
-void PipeChannel::JoinForReadingOrWriting()
+void PipeTransport::JoinForReadingOrWriting()
 {
 	if (!m_reader.CanBeRead() && !m_writer.CanBeWritten())
 	{
@@ -125,19 +125,19 @@ void PipeChannel::JoinForReadingOrWriting()
 	}
 }
 
-uint32_t PipeChannel::Write(const uint32_t size, const void* pBuffer)
+uint32_t PipeTransport::Write(const uint32_t size, const void* pBuffer)
 {
 	const uint32_t result = m_writer.Write(size, pBuffer);
 	return result;
 }
 
-uint32_t PipeChannel::Read(const uint32_t size, void* pBuffer)
+uint32_t PipeTransport::Read(const uint32_t size, void* pBuffer)
 {
 	const uint32_t result = m_reader.Read(size, pBuffer);
 	return result;
 }
 
-void PipeChannel::WakeUp()
+void PipeTransport::WakeUp()
 {
 	SetEvent(m_event);
 }

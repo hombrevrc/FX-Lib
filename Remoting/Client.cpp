@@ -8,17 +8,18 @@
 
 
 Client::Client(IConnector& connectror, ThreadPool& threadPool) :
-	m_connectror(connectror), m_threadPool(threadPool), m_continue(false), m_event(0, 1)
+	m_connectror(connectror), m_threadPool(threadPool), m_continue(false), m_event(0, 1), m_channel(nullptr)
 {
 }
 
 Client::~Client()
 {
+	Stop();
 }
 
 void Client::Start()
 {
-	std::unique_lock<std::mutex> lock(m_synchronizer);
+	std::lock_guard<std::mutex> lock(m_synchronizer);
 	m_continue = true;
 	if (m_thread.joinable())
 	{
@@ -29,7 +30,7 @@ void Client::Start()
 
 void Client::Stop()
 {
-	std::unique_lock<std::mutex> lock(m_synchronizer);
+	std::lock_guard<std::mutex> lock(m_synchronizer);
 	m_continue = false;
 	Finalize();
 	if (m_thread.joinable())
@@ -63,8 +64,10 @@ void Client::DoStep()
 
 	try
 	{
-		std::unique_ptr<IChannel> stream(m_connectror.Connect());
-		m_pChannel = new Channel(*this, stream.get());
+		std::unique_ptr<ITransport> stream(m_connectror.Connect());
+		Channel* pChannel = new Channel(*this, stream.get());
+		m_channel.store(pChannel);
+		stream.release();
 	}
 	catch (const std::exception& /*ex*/)
 	{
@@ -73,27 +76,15 @@ void Client::DoStep()
 
 bool Client::Finalize(Channel* pChannel)
 {
-	bool result = false;
-
-	{
-		std::unique_lock<std::mutex> lock(m_synchronizer);
-		if (pChannel == m_pChannel)
-		{
-			m_pChannel = nullptr;
-			result = true;
-		}
-	}
+	Channel* pCurrent = m_channel.exchange(nullptr);
+	const bool result = (pChannel == pCurrent);
 	m_event.Release();
 	return result;
 }
 
 void Client::Finalize()
 {
-	Channel* pChannel = nullptr;
-	{
-		std::unique_lock<std::mutex> lock(m_synchronizer);
-		std::swap(m_pChannel, pChannel);
-	}
+	Channel* pChannel = m_channel.exchange(nullptr);
 	if (nullptr != pChannel)
 	{
 		delete pChannel;
@@ -118,7 +109,7 @@ ThreadPool& Client::GetThreadPool()
 
 void Client::SetMessageHandler(MessageHandler handler)
 {
-	std::unique_lock<std::mutex> lock(m_synchronizer);
+	std::lock_guard<std::mutex> lock(m_synchronizer);
 	if (m_thread.joinable())
 	{
 		throw std::runtime_error("Couldn't set message handler, if client is running");

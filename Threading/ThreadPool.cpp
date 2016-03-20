@@ -114,6 +114,19 @@ uint32_t ThreadPool::NumberOfTasks() const
 	return result;
 }
 
+bool ThreadPool::ContainsThisThread() const
+{
+	std::thread::id thisThreadId = std::this_thread::get_id();
+	for (const auto& element : m_threads)
+	{
+		if (thisThreadId == element.get_id())
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 void ThreadPool::Release()
 {
 	int32_t counter = m_counter.fetch_add(1);

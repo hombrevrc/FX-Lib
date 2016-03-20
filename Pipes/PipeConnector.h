@@ -12,7 +12,7 @@ public:
 	PipeConnector& operator = (const PipeConnector&) = delete;
 
 public:
-	virtual IChannel* Connect() override;
+	virtual ITransport* Connect() override;
 
 private:
 	std::wstring m_name;

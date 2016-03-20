@@ -73,6 +73,8 @@
 /Console/Release.x86
 /Sal/Release.x64
 /Pipes/Debug.x86
-\
-/Pipes/Release.x86/Pipes.tlog
 /Pipes/Release.x86
+/Remoting.Tests/Release.x86
+/Remoting.Tests/Release.x64
+/Remoting.Tests/Debug.x86
+/Remoting.Tests/Debug.x64

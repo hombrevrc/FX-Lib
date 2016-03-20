@@ -14,7 +14,7 @@ public:
 	virtual ~PipeAcceptor();
 
 public:
-	virtual IChannel* Accept() override;
+	virtual ITransport* Accept() override;
 	virtual void StopAccepting() override;
 
 private:

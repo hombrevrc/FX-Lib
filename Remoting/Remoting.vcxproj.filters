@@ -32,17 +32,11 @@
     <ClInclude Include="Remoting.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="ChannelState.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Channel.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Delegates.h">
       <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="IChannel.h">
-      <Filter>Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="Channels.h">
       <Filter>Headers</Filter>
@@ -51,6 +45,12 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="EndPoint.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ITransport.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="TransportState.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

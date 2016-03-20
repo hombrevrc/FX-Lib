@@ -4,7 +4,7 @@
 
 #include "stdafx.h"
 #include "PipeConnector.h"
-#include "PipeChannel.h"
+#include "PipeTransport.h"
 
 
 namespace
@@ -17,7 +17,7 @@ PipeConnector::PipeConnector(const std::wstring& name) : m_name(name)
 {
 }
 
-IChannel* PipeConnector::Connect()
+ITransport* PipeConnector::Connect()
 {
 	Timeout timeout(PIPE_TIMEOUT);
 	Pipe pipe = Pipe::OpenReader(m_name, timeout.ToIntervalInMs());
@@ -32,6 +32,6 @@ IChannel* PipeConnector::Connect()
 	Pipe writer = Pipe::OpenWriter(writingId, timeout.ToIntervalInMs());
 	Pipe reader = Pipe::OpenReader(readingId, timeout.ToIntervalInMs());
 
-	PipeChannel* result = new PipeChannel(std::move(reader), std::move(writer));
+	PipeTransport* result = new PipeTransport(std::move(reader), std::move(writer));
 	return result;
 }

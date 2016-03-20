@@ -17,6 +17,7 @@
 #include <map>
 #include <vector>
 #include <unordered_map>
+#include <iostream>
 
 #ifdef min
 #undef min

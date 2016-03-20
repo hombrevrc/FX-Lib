@@ -157,7 +157,7 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Functions.h" />
     <ClInclude Include="PipeAcceptor.h" />
-    <ClInclude Include="PipeChannel.h" />
+    <ClInclude Include="PipeTransport.h" />
     <ClInclude Include="PipeConnector.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="PipeReader.h" />
@@ -171,7 +171,7 @@
     <ClCompile Include="Constants.cpp" />
     <ClCompile Include="Functions.cpp" />
     <ClCompile Include="PipeAcceptor.cpp" />
-    <ClCompile Include="PipeChannel.cpp" />
+    <ClCompile Include="PipeTransport.cpp" />
     <ClCompile Include="PipeConnector.cpp" />
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="PipeReader.cpp" />

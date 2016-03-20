@@ -34,6 +34,7 @@ public:
 	void Finalize();
 	void JoinAndFinalize();
 	uint32_t NumberOfTasks() const;
+	bool ContainsThisThread() const;
 
 public:
 	template<typename TFunc, typename ... TArgs> void Invoke(const TFunc& func, const TArgs&... args)

@@ -4,10 +4,11 @@
 
 #pragma once
 
-enum class ChannelState
+#include "IBuilder.h"
+
+class SocketBuilder : public IBuilder
 {
-	None = 0,
-	CanRead = 1,
-	CanWrite = 2,
-	CanReadWrite = 3
+public:
+	virtual IAcceptor* CreateAcceptor() override;
+	virtual IConnector* CreateConnector() override;
 };

@@ -6,6 +6,11 @@
 #include "PipeWriter.h"
 
 
+PipeWriter::PipeWriter()
+{
+	m_stream.SetSize(0);
+}
+
 bool PipeWriter::CanBeWritten()
 {
 	if (m_pendingIO)

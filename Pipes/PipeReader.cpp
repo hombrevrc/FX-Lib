@@ -76,6 +76,11 @@ std::wstring PipeReader::ReadWString(const Timeout& timeout)
 
 uint32_t PipeReader::ReadFromBuffer(const uint32_t size, void* pBuffer)
 {
+	if (m_pendingIO)
+	{
+		return 0;
+	}
+
 	uint32_t result = std::min(size, m_stream.GetSize() - m_stream.GetPosition());
 	m_stream.Read(result, pBuffer);
 	return result;

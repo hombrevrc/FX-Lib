@@ -60,7 +60,7 @@ uint8_t* MemoryStream::GetData()
 
 void MemoryStream::SetPosition(const uint32_t newPosition)
 {
-	if (newPosition >= m_size)
+	if (newPosition > m_size)
 	{
 		throw std::runtime_error("Invalid new position");
 	}
@@ -122,6 +122,12 @@ void MemoryStream::EnsureSize(const uint32_t additionalSize)
 void MemoryStream::EnsureCapacity(const uint32_t totalSize)
 {
 	assert(totalSize > m_capacity);
+
+	if (totalSize >= std::numeric_limits<uint32_t>::max() / 2)
+	{
+		throw std::bad_alloc();
+	}
+
 	uint32_t newCapacity = m_capacity;
 
 	do

@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="_Headers">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="_Sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Pipes">
+      <UniqueIdentifier>{08bc1c2d-dba1-4c4f-af90-0249fc73e84b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sockets">
+      <UniqueIdentifier>{86e947f8-21bc-44a3-9ebb-c6edc0e48f9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pipes\Headers">
+      <UniqueIdentifier>{6ae10899-dfac-4ed2-9ccf-ca995fb5fb8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pipes\Soruces">
+      <UniqueIdentifier>{dbe15843-2357-44d8-9ebc-b499db7fd5b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sockets\Headers">
+      <UniqueIdentifier>{3b8f959b-f7a1-4768-80b0-51364a637421}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sockets\Sources">
+      <UniqueIdentifier>{c44fd8b3-4683-4434-8cb0-7b964f73f979}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>_Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>_Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="IBuilder.h">
+      <Filter>_Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerClientTest.h">
+      <Filter>_Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="AcceptorConnectorTest.h">
+      <Filter>_Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PipeAcceptorConnectorTest.h">
+      <Filter>Pipes\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PipeBuilder.h">
+      <Filter>Pipes\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketAcceptorConnectorTest.h">
+      <Filter>Sockets\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketBuilder.h">
+      <Filter>Sockets\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PipeServerClientTest.h">
+      <Filter>Pipes\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketServerClientTest.h">
+      <Filter>Sockets\Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>_Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerClientTest.cpp">
+      <Filter>_Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="AcceptorConnectorTest.cpp">
+      <Filter>_Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="PipeAcceptorConnectorTest.cpp">
+      <Filter>Pipes\Soruces</Filter>
+    </ClCompile>
+    <ClCompile Include="PipeBuilder.cpp">
+      <Filter>Pipes\Soruces</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketAcceptorConnectorTest.cpp">
+      <Filter>Sockets\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketBuilder.cpp">
+      <Filter>Sockets\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="PipeServerClientTest.cpp">
+      <Filter>Pipes\Soruces</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketServerClientTest.cpp">
+      <Filter>Sockets\Sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

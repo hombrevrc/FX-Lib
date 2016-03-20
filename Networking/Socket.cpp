@@ -4,24 +4,41 @@
 
 #include "stdafx.h"
 #include "Socket.h"
+#include "SocketInitializer.h"
 
+
+namespace
+{
+	u_long cKeepalivetimeInMilliseconds = 10000;
+	u_long cKeepaliveintervalInMilliseconds = 3000;
+	const timeval cZeroTimeout = { 0, 0 };
+}
+
+namespace
+{
+	PhysicalSingleton<SocketInitializer> gSocketInitializer;
+}
 
 Socket::Socket()
 {
+	gSocketInitializer.GetOrCreate();
 }
 
 Socket::Socket(SOCKET s)
 {
+	gSocketInitializer.GetOrCreate();
 	m_socket = s;
 }
 
 Socket::Socket(int af, int type, int protocol)
 {
+	gSocketInitializer.GetOrCreate();
 	Create(af, type, protocol);
 }
 
 Socket::Socket(Socket&& s)
 {
+	gSocketInitializer.GetOrCreate();
 	m_socket = s.m_socket;
 	s.m_socket = INVALID_SOCKET;
 }
@@ -42,6 +59,27 @@ Socket::~Socket()
 	Close();
 }
 
+void Socket::EnableNonBlockingMode()
+{
+	u_long mode = 1;
+	const int status = ioctlsocket(m_socket, FIONBIO, &mode);
+	if (0 != status)
+	{
+		throw SystemException("Couldn't enable non blocking mode");
+	}
+}
+
+void Socket::EnableKeepAlive()
+{
+	DWORD size = 0;
+	tcp_keepalive keepAlive = { 1, cKeepalivetimeInMilliseconds, cKeepaliveintervalInMilliseconds };
+	const int status = WSAIoctl(m_socket, SIO_KEEPALIVE_VALS, &keepAlive, sizeof(keepAlive), NULL, 0, &size, NULL, NULL);
+	if (0 != status)
+	{
+		throw SystemException("Couldn't enable keep alive");
+	}
+}
+
 bool Socket::IsInvalid() const
 {
 	const bool result = (INVALID_SOCKET == m_socket);
@@ -59,6 +97,11 @@ void Socket::ThrowIfInvalid(const char* message) const
 		std::string st = stream.str();
 		throw std::runtime_error(st);
 	}
+}
+
+SOCKET Socket::GetHandle() const
+{
+	return m_socket;
 }
 
 bool Socket::Create(int af, int type, int protocol)
@@ -128,6 +171,12 @@ int Socket::Recv(char* buf, int len, int flags /* = 0 */)
 int Socket::GetSockOpt(int level, int optname, char* optval, int* optlen)
 {
 	const int result = getsockopt(m_socket, level, optname, optval, optlen);
+	return result;
+}
+
+int Socket::SetSockOpt(int level, int optname, const char* optval, int optlen)
+{
+	int result = setsockopt(m_socket, level, optname, optval, optlen);
 	return result;
 }
 

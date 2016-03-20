@@ -4,11 +4,11 @@
 
 #pragma once
 
-#include "IChannel.h"
+#include "ITransport.h"
 
 class IConnector
 {
 public:
-	virtual IChannel* Connect() = 0;
+	virtual ITransport* Connect() = 0;
 	virtual ~IConnector() {};
 };

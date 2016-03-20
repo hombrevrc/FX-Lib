@@ -40,8 +40,10 @@ private:
 
 private:
 	std::mutex m_synchronizer;
+
+private:
 	MessageHandler m_message;
-	Channel* m_pChannel;
+	std::atomic<Channel*> m_channel;
 
 private:
 	std::thread m_thread;

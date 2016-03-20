@@ -10,7 +10,7 @@
 class PipeWriter : public PipeStream
 {
 public:
-	PipeWriter() = default;
+	PipeWriter();
 	PipeWriter(const PipeWriter&) = delete;
 	PipeWriter& operator = (const PipeWriter&) = delete;
 

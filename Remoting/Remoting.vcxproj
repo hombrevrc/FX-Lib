@@ -156,12 +156,12 @@
   <ItemGroup>
     <ClInclude Include="Channel.h" />
     <ClInclude Include="Channels.h" />
-    <ClInclude Include="ChannelState.h" />
+    <ClInclude Include="TransportState.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Delegates.h" />
     <ClInclude Include="EndPoint.h" />
     <ClInclude Include="IAcceptor.h" />
-    <ClInclude Include="IChannel.h" />
+    <ClInclude Include="ITransport.h" />
     <ClInclude Include="IConnector.h" />
     <ClInclude Include="Remoting.h" />
     <ClInclude Include="Server.h" />

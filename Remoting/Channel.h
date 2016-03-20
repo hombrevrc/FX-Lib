@@ -4,20 +4,20 @@
 
 #pragma once
 
-#include "IChannel.h"
+#include "ITransport.h"
 #include "EndPoint.h"
 
 class Channel
 {
 public:
-	Channel(EndPoint& endPoint, IChannel* pChannel);
+	Channel(EndPoint& endPoint, ITransport* pChannel);
 	Channel(const Channel&) = delete;
 	Channel& operator = (const Channel&) = delete;
 	~Channel();
 
 public:
 	EndPoint& GetEndPoint();
-	IChannel& GetTransport();
+	ITransport& GetTransport();
 
 public:
 	void Send(MemoryStream& stream);
@@ -36,7 +36,7 @@ private:
 
 private:
 	EndPoint& m_endPoint;
-	IChannel* m_pChannel;
+	ITransport* m_pChannel;
 
 private:
 	mutable std::mutex m_synchronizer;
@@ -47,7 +47,7 @@ private:
 	MemoryStream m_message;
 
 private:
-	bool m_isSelfDestruction;
+	bool m_isSelfDestruction = false;
 	std::atomic<bool> m_continue;
-	ThreadPool m_thread;
+	std::thread m_thread;
 };

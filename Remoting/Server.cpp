@@ -97,7 +97,7 @@ void Server::Loop()
 {
 	for (;;)
 	{
-		std::unique_ptr<IChannel> stream(m_acceptor.Accept());
+		std::unique_ptr<ITransport> stream(m_acceptor.Accept());
 		if (!stream)
 		{
 			break;
@@ -114,7 +114,7 @@ void Server::Loop()
 
 void Server::Initialize(Channel* pChannel)
 {
-	IChannel& transport = pChannel->GetTransport();
+	ITransport& transport = pChannel->GetTransport();
 	transport.Accept();
 }
 

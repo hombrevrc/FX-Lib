@@ -17,8 +17,13 @@ public:
 	~Socket();
 
 public:
+	void EnableNonBlockingMode();
+	void EnableKeepAlive();
+
+public:
 	bool IsInvalid() const;
 	void ThrowIfInvalid(const char* message) const;
+	SOCKET GetHandle() const;
 
 public:
 	bool Create(int af, int type, int protocol);
@@ -31,6 +36,7 @@ public:
 	int Send(const char * buf, int len, int flags = 0);
 	int Recv(char* buf, int len, int flags = 0);
 	int GetSockOpt(int level, int optname, char* optval, int* optlen);
+	int SetSockOpt(int level, int optname, const char* optval, int optlen);
 	int GetSockName(sockaddr* name, int* namelen);
 
 private:
