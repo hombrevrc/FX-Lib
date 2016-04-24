@@ -42,7 +42,7 @@ void ServerClientTest::OnCreateChannel(Server& server, Channel& channel)
 	channel;
 }
 
-void ServerClientTest::OnServerMessage(Channel& channel, const std::shared_ptr<MemoryStream>& stream)
+void ServerClientTest::OnServerMessage(Channel* channel, const std::shared_ptr<MemoryStream>& stream)
 {
 	channel;
 	stream;
@@ -54,7 +54,7 @@ void ServerClientTest::OnDeleteChannel(Server& server, Channel& channel)
 	channel;
 }
 
-void ServerClientTest::OnClientMessage(Channel& channel, const std::shared_ptr<MemoryStream>& stream)
+void ServerClientTest::OnClientMessage(Channel* channel, const std::shared_ptr<MemoryStream>& stream)
 {
 	channel;
 	stream;

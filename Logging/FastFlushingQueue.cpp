@@ -3,8 +3,8 @@
 //==============================================================
 
 #include "stdafx.h"
-#include "BinFlushingQueue.h"
-#include "BinLogger.h"
+#include "FastFlushingQueue.h"
+#include "FastLogger.h"
 
 
 namespace
@@ -12,17 +12,17 @@ namespace
 	const uint32_t cSleepIntervalInMs = 1024;
 }
 
-BinFlushingQueue::BinFlushingQueue() : m_continue(true), m_event(0, 1)
+FastFlushingQueue::FastFlushingQueue() : m_continue(true), m_event(0, 1)
 {
-	m_thread = std::thread(&BinFlushingQueue::Loop, this);
+	m_thread = std::thread(&FastFlushingQueue::Loop, this);
 }
 
-BinFlushingQueue::~BinFlushingQueue()
+FastFlushingQueue::~FastFlushingQueue()
 {
 	Stop();
 }
 
-void BinFlushingQueue::Add(BinLogger* pLogger)
+void FastFlushingQueue::Add(FastLogger* pLogger)
 {
 	std::unique_lock<std::mutex> lock(m_synchronizer);
 	if (m_continue)
@@ -35,14 +35,14 @@ void BinFlushingQueue::Add(BinLogger* pLogger)
 	}
 }
 
-void BinFlushingQueue::Remove(BinLogger* pLogger)
+void FastFlushingQueue::Remove(FastLogger* pLogger)
 {
 	std::unique_lock<std::mutex> lock(m_synchronizer);
 	auto it = std::remove(m_loggers.begin(), m_loggers.end(), pLogger);
 	m_loggers.erase(it, m_loggers.end());
 }
 
-void BinFlushingQueue::Stop()
+void FastFlushingQueue::Stop()
 {
 	m_continue = false;
 	m_event.Release();
@@ -52,7 +52,7 @@ void BinFlushingQueue::Stop()
 	}
 }
 
-void BinFlushingQueue::Loop()
+void FastFlushingQueue::Loop()
 {
 	for (; m_continue; m_event.AcquireInMs(cSleepIntervalInMs))
 	{
@@ -62,7 +62,7 @@ void BinFlushingQueue::Loop()
 	Flush();
 }
 
-void BinFlushingQueue::SwithchToSynchronousMode()
+void FastFlushingQueue::SwithchToSynchronousMode()
 {
 	std::unique_lock<std::mutex> lock(m_synchronizer);
 	for (auto element : m_loggers)
@@ -73,7 +73,7 @@ void BinFlushingQueue::SwithchToSynchronousMode()
 	m_loggers.clear();
 }
 
-void BinFlushingQueue::Flush()
+void FastFlushingQueue::Flush()
 {
 	std::unique_lock<std::mutex> lock(m_synchronizer);
 	for (auto element : m_loggers)

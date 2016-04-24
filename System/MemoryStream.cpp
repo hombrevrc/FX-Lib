@@ -60,6 +60,10 @@ uint8_t* MemoryStream::GetData()
 
 void MemoryStream::SetPosition(const uint32_t newPosition)
 {
+	if (m_position > m_size)
+	{
+		m_size = m_position;
+	}
 	if (newPosition > m_size)
 	{
 		throw std::runtime_error("Invalid new position");

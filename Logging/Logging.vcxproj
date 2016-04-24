@@ -158,19 +158,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BinEntry.h" />
-    <ClInclude Include="BinFlushingQueue.h" />
-    <ClInclude Include="BinLogger.h" />
-    <ClInclude Include="BinStream.h" />
+    <ClInclude Include="FastFlushingQueue.h" />
+    <ClInclude Include="FastLogger.h" />
+    <ClInclude Include="FastEntry.h" />
+    <ClInclude Include="FastHelper.h" />
+    <ClInclude Include="FastOutput.h" />
+    <ClInclude Include="FastStream.h" />
+    <ClInclude Include="IFastHelper.h" />
     <ClInclude Include="Logging.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BinEntry.cpp" />
-    <ClCompile Include="BinFlushingQueue.cpp" />
-    <ClCompile Include="BinLogger.cpp" />
-    <ClCompile Include="BinStream.cpp" />
+    <ClCompile Include="FastFlushingQueue.cpp" />
+    <ClCompile Include="FastLogger.cpp" />
+    <ClCompile Include="FastEntry.cpp" />
+    <ClCompile Include="FastStream.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

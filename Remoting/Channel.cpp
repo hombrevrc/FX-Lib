@@ -38,7 +38,7 @@ ITransport& Channel::GetTransport()
 	return *m_pChannel;
 }
 
-void Channel::Send(MemoryStream& stream)
+void Channel::Send(const MemoryStream& stream)
 {
 	bool wakeUp = false;
 	{
@@ -57,8 +57,15 @@ void Channel::Send(MemoryStream& stream)
 
 void Channel::Run()
 {
-	m_endPoint.Initialize(this);
-	Loop();
+	try
+	{
+		m_endPoint.Initialize(this);
+		Loop();
+	}
+	catch (const std::exception& ex)
+	{
+		std::cout << ex.what() << std::endl;
+	}
 }
 
 void Channel::Loop()
@@ -103,6 +110,7 @@ void Channel::TryToWrite()
 	{
 		std::unique_lock<std::mutex> lock(m_synchronizer);
 		std::swap(m_pWriting, m_pPending);
+		m_pPending->SetSize(0);
 		m_pWriting->SetPosition(0);
 	}
 
@@ -115,62 +123,82 @@ void Channel::TryToWrite()
 	pStream->SetPosition(position + sent);
 }
 
-
 void Channel::TryToRead()
 {
 	if (TryToReadSize())
 	{
 		if (TryToReadData())
 		{
-			//doRead();
+			DoRead();
 		}
 	}
 }
 
 bool Channel::TryToReadSize()
 {
-	const uint32_t position = m_message.GetPosition();
+	MemoryStream& message = GetMemoryStream();
+	const uint32_t position = message.GetPosition();
 	if (position >= sizeof(uint32_t))
 	{
 		return true;
 	}
 
-	if (m_message.GetSize() < sizeof(uint32_t))
+	if (message.GetSize() < sizeof(uint32_t))
 	{
-		m_message.SetSize(sizeof(uint32_t));
+		message.SetSize(sizeof(uint32_t));
 	}
 
-	uint8_t* pData = m_message.GetData() + position;
+	uint8_t* pData = message.GetData() + position;
 	uint32_t read = m_pChannel->Read(sizeof(uint32_t) - position, pData);
 
 	const uint32_t newPosition = position + read;
-	m_message.SetPosition(newPosition);
+	message.SetPosition(newPosition);
 
 	if (newPosition < sizeof(uint32_t))
 	{
 		return false;
 	}
 
-	m_message.SetPosition(0);
+	message.SetPosition(0);
 	uint32_t size = 0;
-	m_message.Read(sizeof(uint32_t), &size);
-	m_message.SetSize(size + sizeof(uint32_t));
-	m_message.Write(sizeof(uint32_t), &size);
+	message.Read(sizeof(uint32_t), &size);
+	message.SetSize(size + sizeof(uint32_t));
+	message.Write(sizeof(uint32_t), &size);
 	return true;
 }
 
 bool Channel::TryToReadData()
 {
-	const uint32_t size = m_message.GetSize();
-	const uint32_t position = m_message.GetPosition();
-	uint8_t* pData = m_message.GetData() + position;
+	MemoryStream& message = GetMemoryStream();
+	const uint32_t size = message.GetSize();
+	const uint32_t position = message.GetPosition();
+	uint8_t* pData = message.GetData() + position;
 	uint32_t read = m_pChannel->Read(size - position, pData);
 
 	const uint32_t newPosition = position + read;
-	m_message.SetPosition(newPosition);
+	message.SetPosition(newPosition);
 	if (newPosition >= size)
 	{
 		return true;
 	}
 	return false;
+}
+
+void Channel::DoRead()
+{
+	ThreadPool& thread = m_endPoint.GetThreadPool();
+	MessageHandler handler = m_endPoint.GetMessageHandler();
+	std::shared_ptr<MemoryStream> message = m_message;
+	m_message.reset();
+	message->SetPosition(0);
+	thread.Invoke(handler, this, message);
+}
+
+MemoryStream& Channel::GetMemoryStream()
+{
+	if (!m_message)
+	{
+		m_message = std::make_shared<MemoryStream>();
+	}
+	return *m_message;
 }

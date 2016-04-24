@@ -8,7 +8,7 @@
 
 
 Client::Client(IConnector& connectror, ThreadPool& threadPool) :
-	m_connectror(connectror), m_threadPool(threadPool), m_continue(false), m_event(0, 1), m_channel(nullptr)
+	m_connectror(connectror), m_threadPool(threadPool), m_continue(false), m_event(0, 1), m_channel()
 {
 }
 
@@ -39,6 +39,11 @@ void Client::Stop()
 	}
 }
 
+void Client::Send(const MemoryStream& stream)
+{
+	m_channel.Send(stream);
+}
+
 void Client::Loop()
 {
 	for (; m_continue; m_event.Acquire())
@@ -66,17 +71,18 @@ void Client::DoStep()
 	{
 		std::unique_ptr<ITransport> stream(m_connectror.Connect());
 		Channel* pChannel = new Channel(*this, stream.get());
-		m_channel.store(pChannel);
+		m_channel.Store(pChannel);
 		stream.release();
 	}
-	catch (const std::exception& /*ex*/)
+	catch (const std::exception& ex)
 	{
+		std::cout << ex.what() << std::endl;
 	}
 }
 
 bool Client::Finalize(Channel* pChannel)
 {
-	Channel* pCurrent = m_channel.exchange(nullptr);
+	Channel* pCurrent = m_channel.Exchange(nullptr);
 	const bool result = (pChannel == pCurrent);
 	m_event.Release();
 	return result;
@@ -84,7 +90,7 @@ bool Client::Finalize(Channel* pChannel)
 
 void Client::Finalize()
 {
-	Channel* pChannel = m_channel.exchange(nullptr);
+	Channel* pChannel = m_channel.Exchange(nullptr);
 	if (nullptr != pChannel)
 	{
 		delete pChannel;

@@ -4,28 +4,28 @@
 
 #pragma once
 
-#include "BinEntry.h"
+#include "FastEntry.h"
 
-class BinLogger
+class FastLogger
 {
 public:
-	BinLogger(const std::filesystem::path& directory, const std::tstring& filename);
-	BinLogger(const BinLogger&) = delete;
-	BinLogger& operator = (const BinLogger&) = delete;
-	~BinLogger();
+	FastLogger(const std::filesystem::path& directory, const std::tstring& filename);
+	FastLogger(const FastLogger&) = delete;
+	FastLogger& operator = (const FastLogger&) = delete;
+	~FastLogger();
 
 public:
 	static void Initialize(const std::filesystem::path& directory, const std::tstring& filename);
-	static BinLogger& GetGlobalLogger();
+	static FastLogger& GetGlobalLogger();
 	static void StopFlushingQueue();
 
 public:
-	void Add(BinEntry* pEntry);
+	void Add(FastEntry* pEntry);
 	void Flush();
 	void SwitchToSynchronousMode();
 
 private:
-	void Write(BinEntry& entry);
+	void Write(FastEntry& entry);
 	void ReopenIfNeeded(SystemClock::time_point tp);
 
 private:
@@ -34,7 +34,7 @@ private:
 
 private:
 	std::atomic<bool> m_synchronousMode;
-	std::atomic<BinEntry*> m_trail;
+	std::atomic<FastEntry*> m_trail;
 	std::mutex m_synchronizer;
 
 private:

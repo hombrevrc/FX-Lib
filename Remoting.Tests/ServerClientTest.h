@@ -18,11 +18,11 @@ public:
 
 private:
 	void OnCreateChannel(Server& server, Channel& channel);
-	void OnServerMessage(Channel& channel, const std::shared_ptr<MemoryStream>& stream);
+	void OnServerMessage(Channel* channel, const std::shared_ptr<MemoryStream>& stream);
 	void OnDeleteChannel(Server& server, Channel& channel);
 
 private:
-	void OnClientMessage(Channel& channel, const std::shared_ptr<MemoryStream>& stream);
+	void OnClientMessage(Channel* channel, const std::shared_ptr<MemoryStream>& stream);
 
 private:
 	IBuilder& m_builder;

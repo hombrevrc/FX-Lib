@@ -63,6 +63,7 @@ bool PipeWriter::WriteBuffer()
 	}
 	else
 	{
+		m_stream.SetPosition(0);
 		m_pipe.Write(m_stream);
 
 		const uint32_t position = m_stream.GetPosition();

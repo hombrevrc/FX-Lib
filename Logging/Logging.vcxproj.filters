@@ -11,25 +11,34 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="FastEntry.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="FastFlushingQueue.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FastHelper.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FastLogger.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FastOutput.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FastStream.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="IFastHelper.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Logging.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="BinEntry.h">
+    <ClInclude Include="stdafx.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="BinFlushingQueue.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="BinLogger.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="BinStream.h">
+    <ClInclude Include="targetver.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -37,16 +46,16 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="BinFlushingQueue.cpp">
+    <ClCompile Include="FastStream.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="BinLogger.cpp">
+    <ClCompile Include="FastEntry.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="BinStream.cpp">
+    <ClCompile Include="FastFlushingQueue.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="BinEntry.cpp">
+    <ClCompile Include="FastLogger.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

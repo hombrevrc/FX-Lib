@@ -53,6 +53,9 @@
     <ClInclude Include="TransportState.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="ChannelPtr.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -71,6 +74,9 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="EndPoint.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ChannelPtr.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

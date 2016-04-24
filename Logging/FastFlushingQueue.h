@@ -4,19 +4,19 @@
 
 #pragma once
 
-class BinLogger;
+class FastLogger;
 
-class BinFlushingQueue
+class FastFlushingQueue
 {
 public:
-	BinFlushingQueue();
-	BinFlushingQueue(const BinFlushingQueue&) = delete;
-	BinFlushingQueue& operator = (const BinFlushingQueue&) = delete;
-	~BinFlushingQueue();
+	FastFlushingQueue();
+	FastFlushingQueue(const FastFlushingQueue&) = delete;
+	FastFlushingQueue& operator = (const FastFlushingQueue&) = delete;
+	~FastFlushingQueue();
 
 public:
-	void Add(BinLogger* pLogger);
-	void Remove(BinLogger* pLogger);
+	void Add(FastLogger* pLogger);
+	void Remove(FastLogger* pLogger);
 	void Stop();
 
 private:
@@ -31,5 +31,5 @@ private:
 private:
 	std::mutex m_synchronizer;
 	std::thread m_thread;
-	std::vector<BinLogger*> m_loggers;
+	std::vector<FastLogger*> m_loggers;
 };

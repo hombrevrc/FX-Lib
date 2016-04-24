@@ -6,6 +6,7 @@
 
 #include "IConnector.h"
 #include "EndPoint.h"
+#include "ChannelPtr.h"
 
 class Client : public EndPoint
 {
@@ -18,6 +19,7 @@ public:
 public:
 	void Start();
 	void Stop();
+	void Send(const MemoryStream& stream);
 
 public:
 	virtual void Initialize(Channel* pChannel) override;
@@ -43,7 +45,7 @@ private:
 
 private:
 	MessageHandler m_message;
-	std::atomic<Channel*> m_channel;
+	ChannelPtr m_channel;
 
 private:
 	std::thread m_thread;

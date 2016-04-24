@@ -3,19 +3,19 @@
 //==============================================================
 
 #include "stdafx.h"
-#include "BinLogger.h"
-#include "BinFlushingQueue.h"
+#include "FastLogger.h"
+#include "FastFlushingQueue.h"
 
 
 using namespace std;
 
 namespace
 {
-	PhysicalSingleton<BinFlushingQueue> gQueue;
-	PhysicalSingleton<BinLogger> gGlobalLogger;
+	PhysicalSingleton<FastFlushingQueue> gQueue;
+	PhysicalSingleton<FastLogger> gGlobalLogger;
 }
 
-BinLogger::BinLogger(const std::filesystem::path& directory, const std::tstring& filename) :
+FastLogger::FastLogger(const std::filesystem::path& directory, const std::tstring& filename) :
 	m_directory(directory), m_filename(filename), m_synchronousMode(false), m_trail(nullptr)
 {
 	if (!std::filesystem::create_directories(m_directory))
@@ -29,32 +29,32 @@ BinLogger::BinLogger(const std::filesystem::path& directory, const std::tstring&
 	gQueue->Add(this);
 }
 
-BinLogger::~BinLogger()
+FastLogger::~FastLogger()
 {
 	gQueue->Remove(this);
 }
 
-void BinLogger::Initialize(const std::filesystem::path& directory, const std::tstring& filename)
+void FastLogger::Initialize(const std::filesystem::path& directory, const std::tstring& filename)
 {
 	gGlobalLogger.GetOrCreate(directory, filename);
 }
 
-BinLogger& BinLogger::GetGlobalLogger()
+FastLogger& FastLogger::GetGlobalLogger()
 {
 	return gGlobalLogger.Get();
 }
 
-void BinLogger::StopFlushingQueue()
+void FastLogger::StopFlushingQueue()
 {
 	gQueue->Stop();
 }
 
-void BinLogger::SwitchToSynchronousMode()
+void FastLogger::SwitchToSynchronousMode()
 {
 	m_synchronousMode = true;
 }
 
-void BinLogger::Add(BinEntry* pEntry)
+void FastLogger::Add(FastEntry* pEntry)
 {
 	pEntry->Link = m_trail;
 	pEntry->AcquireCurrentTime();
@@ -68,40 +68,40 @@ void BinLogger::Add(BinEntry* pEntry)
 	}
 }
 
-void BinLogger::Flush()
+void FastLogger::Flush()
 {
 	std::unique_lock<std::mutex> lock(m_synchronizer);
 
-	BinEntry* pTrail = m_trail;
+	FastEntry* pTrail = m_trail;
 	while(!m_trail.compare_exchange_weak(pTrail, nullptr))
 	{
 	}
 
-	BinEntry* pHead = nullptr;
-	for (BinEntry* pCurrent = pTrail; nullptr != pCurrent;)
+	FastEntry* pHead = nullptr;
+	for (FastEntry* pCurrent = pTrail; nullptr != pCurrent;)
 	{
-		BinEntry* pNext = pCurrent->Link;
+		FastEntry* pNext = pCurrent->Link;
 		pCurrent->Link = pHead;
 		pHead = pCurrent;
 		pCurrent = pNext;
 	}
 
-	for (BinEntry* pCurrent = pHead; nullptr != pCurrent;)
+	for (FastEntry* pCurrent = pHead; nullptr != pCurrent;)
 	{
 		Write(*pCurrent);
-		BinEntry* pTemp = pCurrent;
+		FastEntry* pTemp = pCurrent;
 		pCurrent = pCurrent->Link;
 		delete pTemp;
 	}
 }
 
-void BinLogger::Write(BinEntry& entry)
+void FastLogger::Write(FastEntry& entry)
 {
 	try
-    {
-        ReopenIfNeeded(entry.TimePoint);
-        std::ostringstream stream;
-        stream << DateTime(entry.TimePoint);
+	{
+		ReopenIfNeeded(entry.TimePoint);
+		std::ostringstream stream;
+		stream << DateTime(entry.TimePoint);
 		stream << ", " << entry.ThreadId;
 		if (nullptr != entry.Type)
 		{
@@ -117,7 +117,7 @@ void BinLogger::Write(BinEntry& entry)
 	}
 }
 
-void BinLogger::ReopenIfNeeded(SystemClock::time_point tp)
+void FastLogger::ReopenIfNeeded(SystemClock::time_point tp)
 {
 	typedef std::chrono::duration<int32_t, std::ratio<24 * 3600> > days;
 	days date = std::chrono::duration_cast<days>(tp.time_since_epoch());

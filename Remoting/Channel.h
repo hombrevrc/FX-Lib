@@ -20,7 +20,7 @@ public:
 	ITransport& GetTransport();
 
 public:
-	void Send(MemoryStream& stream);
+	void Send(const MemoryStream& stream);
 
 private:
 	void Run();
@@ -33,6 +33,8 @@ private:
 	void TryToRead();
 	bool TryToReadSize();
 	bool TryToReadData();
+	void DoRead();
+	MemoryStream& GetMemoryStream();
 
 private:
 	EndPoint& m_endPoint;
@@ -44,7 +46,7 @@ private:
 	MemoryStream* m_pWriting = nullptr;
 	MemoryStream m_first;
 	MemoryStream m_second;
-	MemoryStream m_message;
+	std::shared_ptr<MemoryStream> m_message;
 
 private:
 	bool m_isSelfDestruction = false;

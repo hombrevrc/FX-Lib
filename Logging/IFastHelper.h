@@ -4,8 +4,11 @@
 
 #pragma once
 
-class Server;
-class Channel;
-
-typedef Delegate<void (Server& server, Channel& channel)> ChannelHandler;
-typedef Delegate<void (Channel* pChannel, const std::shared_ptr<MemoryStream>& stream)> MessageHandler;
+class IFastHelper
+{
+public:
+	virtual uint32_t SizeOf() const= 0;
+	virtual void MoveTo(uint8_t* pAddress) = 0;
+	virtual void Format(std::ostream& stream) const = 0;
+	virtual void Delete() = 0;
+};

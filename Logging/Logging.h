@@ -4,4 +4,6 @@
 
 #pragma once
 
-#include "BinStream.h"
+#include "FastLogger.h"
+#include "FastStream.h"
+#include "FastOutput.h"

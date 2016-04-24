@@ -155,6 +155,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Channel.h" />
+    <ClInclude Include="ChannelPtr.h" />
     <ClInclude Include="Channels.h" />
     <ClInclude Include="TransportState.h" />
     <ClInclude Include="Client.h" />
@@ -170,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Channel.cpp" />
+    <ClCompile Include="ChannelPtr.cpp" />
     <ClCompile Include="Channels.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="EndPoint.cpp" />
