@@ -8,22 +8,43 @@
 
 SysSemaphore::SysSemaphore()
 {
-	Construct(0, std::numeric_limits<int32_t>::max());
+	Construct(0, std::numeric_limits<int32_t>::max(), nullptr);
 }
 
-SysSemaphore::SysSemaphore(const uint32_t maxCount)
+SysSemaphore::SysSemaphore(const int32_t maxCount)
 {
-	Construct(0, maxCount);
+	Construct(0, maxCount, nullptr);
 }
 
-SysSemaphore::SysSemaphore(const uint32_t initialCount, const uint32_t maxCount)
+SysSemaphore::SysSemaphore(const int32_t initialCount, const int32_t maxCount)
 {
-	Construct(initialCount, maxCount);
+	Construct(initialCount, maxCount, nullptr);
 }
 
-void SysSemaphore::Construct(const uint32_t initialCount, const uint32_t maxCount)
+SysSemaphore::SysSemaphore(const std::string& name, const int32_t initialCount, const int32_t maxCount)
 {
-	m_handle = CreateSemaphore(nullptr, initialCount, maxCount, nullptr);
+	std::wstring nameTemp = CA2W(name.c_str());
+	Construct(initialCount, maxCount, nameTemp.c_str());
+}
+
+SysSemaphore::SysSemaphore(const std::wstring& name, const int32_t initialCount, const int32_t maxCount)
+{
+	Construct(initialCount, maxCount, name.c_str());
+}
+
+void SysSemaphore::Construct(const int32_t initialCount, const int32_t maxCount, const wchar_t* pName)
+{
+	if (nullptr != pName)
+	{
+		std::wstring fullName = MakeFullname(pName);
+		m_handle = CreateSemaphore(nullptr, initialCount, maxCount, fullName.c_str());
+	}
+	else
+	{
+		m_handle = CreateSemaphore(nullptr, initialCount, maxCount, pName);
+	}
+
+
 	if (nullptr == m_handle)
 	{
 		throw SystemException("Couldn't create a new semaphore");
@@ -44,14 +65,14 @@ void SysSemaphore::Release()
 	ReleaseSemaphore(m_handle, 1, nullptr);
 }
 
-void SysSemaphore::Release(const uint32_t count)
+void SysSemaphore::Release(const int32_t count)
 {
 	ReleaseSemaphore(m_handle, count, nullptr);
 }
 
 bool SysSemaphore::AcquireInMs(const std::chrono::milliseconds timeoutInMs)
 {
-	const bool result = AcquireInMs(static_cast<uint32_t>(timeoutInMs.count()));
+	const bool result = AcquireInMs(static_cast<int32_t>(timeoutInMs.count()));
 	return result;
 }
 
@@ -59,6 +80,12 @@ bool SysSemaphore::AcquireInMs(const uint32_t timeoutInMs)
 {
 	const DWORD status = WaitForSingleObject(m_handle, static_cast<DWORD>(timeoutInMs));
 	const bool result = (WAIT_OBJECT_0 == status);
+	return result;
+}
+
+std::wstring SysSemaphore::MakeFullname(const std::wstring& name)
+{
+	std::wstring result = name + L"_semaphore";
 	return result;
 }
 

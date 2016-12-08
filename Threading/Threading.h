@@ -14,4 +14,5 @@
 #include "LiteSingleton.h"
 #include "Timer.h"
 #include "ExceptionStackTrace.h"
+#include "Optex.h"
 #endif

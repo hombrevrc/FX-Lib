@@ -37,7 +37,11 @@ namespace
 		{
 			throw SystemException("Couldn't get a socket name");
 		}
-		addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+		status = inet_pton(AF_INET, "127.0.0.1", &addr.sin_addr);
+		if (SOCKET_ERROR == status)
+		{
+			throw SystemException("Couldn't connect a socket");
+		}
 		status = client.Connect(reinterpret_cast<sockaddr*>(&addr), sizeof(addr));
 		if (SOCKET_ERROR == status)
 		{

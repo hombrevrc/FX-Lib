@@ -9,12 +9,6 @@
 class SharedMemory
 {
 public:
-	typedef uint32_t size_type;
-	typedef uint8_t value_type;
-	typedef const uint8_t* const_iterator;
-	typedef uint8_t* iterator;
-
-public:
 	SharedMemory() = default;
 	SharedMemory(SharedMemory&& arg);
 	SharedMemory& operator = (SharedMemory&& arg);
@@ -29,42 +23,40 @@ public:
 	void Construct(const std::wstring& name, const uint32_t sizeInBytes, SharedMemoryAccess access = SharedMemoryAccess::ReadAndWrite);
 	void Finalize();
 
+public:
+	static std::wstring MakeFullname(const std::wstring& name);
+
 private:
 	void Reset();
 
 public:
-	uint32_t size() const;
-	bool empty() const;
-
-public:
-	iterator begin();
-	iterator end();
-
-public:
-	const_iterator begin() const;
-	const_iterator end() const;
-
-public:
-	template<typename T> const T& at(const size_type offsetInBytes) const
+	template<typename T> const T& GetRef(const uint32_t offsetInBytes = 0) const
 	{
-		if (offsetInBytes + sizeof(T) < m_size)
-		{
-			return *reinterpret_cast<const T*>(m_data + offsetInBytes);
-		}
-		throw std::out_of_range("SharedMemory<T>::at");
+		assert(offsetInBytes + sizeof(T) <= _size);
+		return *reinterpret_cast<const T*>(_data + offsetInBytes);
 	}
 
-	template<typename T> T& at(const size_type offsetInBytes)
+	template<typename T> T& GetRef(const uint32_t offsetInBytes = 0)
 	{
-		if (offsetInBytes + sizeof(T) < m_size)
-		{
-			return *reinterpret_cast<T*>(m_data + offsetInBytes);
-		}
-		throw std::out_of_range("SharedMemory<T>::at");
+		assert(offsetInBytes + sizeof(T) <= _size);
+		return *reinterpret_cast<T*>(_data + offsetInBytes);
+	}
+
+public:
+	template<typename T> const T* GetPtr(const uint32_t offsetInBytes = 0) const
+	{
+		assert(offsetInBytes + sizeof(T) <= _size);
+		return reinterpret_cast<const T*>(_data + offsetInBytes);
+	}
+
+	template<typename T> T* GetPtr(const uint32_t offsetInBytes = 0)
+	{
+		assert(offsetInBytes + sizeof(T) <= _size);
+		return reinterpret_cast<T*>(_data + offsetInBytes);
 	}
 
 private:
-	HANDLE m_file = nullptr;
-	uint32_t m_size = 0;
-	uint8_t* m_data = nullptr;
+	HANDLE _file = nullptr;
+	uint32_t _size = 0;
+	uint8_t* _data = nullptr;
 };

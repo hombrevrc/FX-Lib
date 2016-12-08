@@ -9,7 +9,7 @@ class SystemException : public std::runtime_error
 public:
 	SystemException(const char* message);
 	SystemException(const std::string& message);
-    virtual ~SystemException();
+	virtual ~SystemException();
 
 public:
 	virtual char const* what() const throw() override;
@@ -21,6 +21,6 @@ private:
 	void FormatMessage(const char* message);
 
 private:
-	const uint32_t m_errorCode = 0;
-	std::string m_what;
+	const uint32_t _errorCode = 0;
+	std::string _what;
 };

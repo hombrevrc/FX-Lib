@@ -8,7 +8,7 @@
 
 
 SharedMemory::SharedMemory(SharedMemory&& arg) :
-	m_file(arg.m_file), m_size(arg.m_size), m_data(arg.m_data)
+	_file(arg._file), _size(arg._size), _data(arg._data)
 {
 	arg.Reset();
 }
@@ -19,9 +19,9 @@ SharedMemory& SharedMemory::operator=(SharedMemory&& arg)
 	{
 		Finalize();
 
-		m_file = arg.m_file;
-		m_size = arg.m_size;
-		m_data = arg.m_data;
+		_file = arg._file;
+		_size = arg._size;
+		_data = arg._data;
 
 		arg.Reset();
 	}
@@ -53,100 +53,70 @@ void SharedMemory::Construct(const std::wstring& name, const uint32_t sizeInByte
 {
 	Finalize();
 
+	std::wstring fullName = MakeFullname(name);
+
 	if ((SharedMemoryAccess::Write == access) || (SharedMemoryAccess::ReadAndWrite == access))
 	{
-		m_file = CreateFileMapping(INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE, 0, static_cast<DWORD>(sizeInBytes), name.c_str());
+		_file = CreateFileMapping(INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE, 0, static_cast<DWORD>(sizeInBytes), fullName.c_str());
 	}
 	else if(SharedMemoryAccess::Read == access)
 	{
-		m_file = OpenFileMapping(FILE_MAP_READ, TRUE, name.c_str());
+		_file = OpenFileMapping(FILE_MAP_READ, TRUE, fullName.c_str());
 	}
 	else
 	{
-		throw std::runtime_error("SharedMemory::Construct(): incorrect access");
+		throw std::runtime_error("Incorrect access");
 	}
 
-	if (nullptr == m_file)
+	if (nullptr == _file)
 	{
-		throw SystemException("SharedMemory::Construct(): couldn't create a new file mapping");
+		throw SystemException("Couldn't create a new file mapping");
 	}
 
 	if (SharedMemoryAccess::Read == access)
 	{
-		m_data = reinterpret_cast<uint8_t*>(MapViewOfFile(m_file, FILE_MAP_READ, 0, 0, 0));
+		_data = reinterpret_cast<uint8_t*>(MapViewOfFile(_file, FILE_MAP_READ, 0, 0, 0));
 	}
 	else if (SharedMemoryAccess::Write == access)
 	{
-		m_data = reinterpret_cast<uint8_t*>(MapViewOfFile(m_file, FILE_MAP_WRITE, 0, 0, 0));
+		_data = reinterpret_cast<uint8_t*>(MapViewOfFile(_file, FILE_MAP_WRITE, 0, 0, 0));
 	}
 	else
 	{
 		assert(SharedMemoryAccess::ReadAndWrite == access);
-		m_data = reinterpret_cast<uint8_t*>(MapViewOfFile(m_file, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0));
+		_data = reinterpret_cast<uint8_t*>(MapViewOfFile(_file, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0));
 	}
-	if (nullptr == m_data)
+	if (nullptr == _data)
 	{
-		CloseHandle(m_file);
-		m_file = nullptr;
+		CloseHandle(_file);
+		_file = nullptr;
 		throw SystemException("SharedMemory::Construct(): couldn't create a new view of file");
 	}
-	m_size = sizeInBytes;
+	_size = sizeInBytes;
 }
 
 void SharedMemory::Reset()
 {
-	m_file = nullptr;
-	m_size = 0;
-	m_data = nullptr;
+	_file = nullptr;
+	_size = 0;
+	_data = nullptr;
 }
 
 void SharedMemory::Finalize()
 {
-	if (nullptr != m_data)
+	if (nullptr != _data)
 	{
-		UnmapViewOfFile(m_data);
+		UnmapViewOfFile(_data);
 	}
-	if (nullptr != m_file)
+	if (nullptr != _file)
 	{
-		CloseHandle(m_file);
+		CloseHandle(_file);
 	}
 	Reset();
 }
 
-SharedMemory::iterator SharedMemory::begin()
+std::wstring SharedMemory::MakeFullname(const std::wstring& name)
 {
-	assert(m_data);
-	return m_data;
+	return name + L"_memory";
 }
 
-SharedMemory::const_iterator SharedMemory::begin() const
-{
-	assert(m_data);
-	return m_data;
-}
-
-SharedMemory::iterator SharedMemory::end()
-{
-	assert(m_data);
-	return m_data + m_size;
-}
-
-SharedMemory::const_iterator SharedMemory::end() const
-{
-	assert(m_data);
-	return m_data + m_size;
-}
-
-uint32_t SharedMemory::size() const
-{
-	return m_size;
-}
-
-bool SharedMemory::empty() const
-{
-	if (0 == m_size)
-	{
-		return true;
-	}
-	return false;
-}

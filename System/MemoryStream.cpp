@@ -8,116 +8,110 @@
 
 MemoryStream::MemoryStream()
 {
-	m_data = m_buffer;
+	_data = _buffer;
 }
 
 MemoryStream::~MemoryStream()
 {
-	if (m_capacity > sizeof(m_buffer))
+	if (_capacity > sizeof(_buffer))
 	{
-		delete[] m_data;
+		delete[] _data;
 	}
 }
 
 const uint32_t MemoryStream::GetCapacity() const
 {
-	return m_capacity;
+	return _capacity;
 }
 
 const uint32_t MemoryStream::GetSize() const
 {
-	if (m_position > m_size)
+	if (_position > _size)
 	{
-		return m_position;
+		return _position;
 	}
-	return m_size;
+	return _size;
 }
 
 const uint32_t MemoryStream::GetPosition() const
 {
-	return m_position;
+	return _position;
+}
+
+void MemoryStream::Clear()
+{
+	_size = 0;
+	_position = 0;
 }
 
 void MemoryStream::SetSize(const uint32_t newSize)
 {
-	if (newSize > m_capacity)
+	if (newSize > _capacity)
 	{
 		EnsureCapacity(newSize);
 	}
-	m_size = newSize;
-	m_position = 0;
+	_size = newSize;
+	_position = 0;
 }
 
 const uint8_t* MemoryStream::GetData() const
 {
-	return m_data;
+	return _data;
 }
 
 uint8_t* MemoryStream::GetData()
 {
-	return m_data;
+	return _data;
 }
 
 void MemoryStream::SetPosition(const uint32_t newPosition)
 {
-	if (m_position > m_size)
+	if (_position > _size)
 	{
-		m_size = m_position;
+		_size = _position;
 	}
-	if (newPosition > m_size)
+	if (newPosition > _size)
 	{
 		throw std::runtime_error("Invalid new position");
 	}
-	m_position = newPosition;
+	_position = newPosition;
 }
 
 void MemoryStream::Write(const std::wstring& value)
 {
-	const uint32_t additionalSize = static_cast<uint32_t>(sizeof(uint32_t) + sizeof(wchar_t) * value.length());
-	EnsureSize(additionalSize);
-
-	uint32_t* pointer = reinterpret_cast<uint32_t*>(m_data + m_position);
-	*pointer = static_cast<uint32_t>(value.length());
-	++pointer;
-	memcpy(pointer, value.data(), sizeof(wchar_t) * value.length());
-	m_position += additionalSize;
+	const uint32_t additionalSize = static_cast<uint32_t>(sizeof(wchar_t) * (1 + value.length()));
+	Write(additionalSize, value.c_str());
 }
 
 void MemoryStream::Write(const std::string& value)
 {
-	const uint32_t additionalSize = static_cast<uint32_t>(sizeof(uint32_t) + value.length());
-	EnsureSize(additionalSize);
-
-	uint32_t* pointer = reinterpret_cast<uint32_t*>(m_data + m_position);
-	*pointer = static_cast<uint32_t>(value.length());
-	++pointer;
-	memcpy(pointer, value.data(), value.length());
-	m_position += additionalSize;
+	const uint32_t additionalSize = static_cast<uint32_t>(1 + value.length());
+	Write(additionalSize, value.c_str());
 }
 
 void MemoryStream::Write(const uint32_t size, const void* pData)
 {
 	EnsureSize(size);
-	uint32_t* pointer = reinterpret_cast<uint32_t*>(m_data + m_position);
+	uint32_t* pointer = reinterpret_cast<uint32_t*>(_data + _position);
 	memcpy(pointer, pData, size);
-	m_position += size;
+	_position += size;
 }
 
 void MemoryStream::Read(const uint32_t size, void* pData)
 {
-	const uint32_t newPosition = m_position + size;
-	if (newPosition > m_size)
+	const uint32_t newPosition = _position + size;
+	if (newPosition > _size)
 	{
 		throw std::runtime_error("End of stream has been reached");
 	}
-	memcpy(pData, m_data + m_position, size);
-	m_position = newPosition;
+	memcpy(pData, _data + _position, size);
+	_position = newPosition;
 }
 
 void MemoryStream::EnsureSize(const uint32_t additionalSize)
 {
 	uint32_t newSize = GetSize() + additionalSize;
-	if (newSize > m_capacity)
+	if (newSize > _capacity)
 	{
 		EnsureCapacity(newSize);
 	}
@@ -125,14 +119,14 @@ void MemoryStream::EnsureSize(const uint32_t additionalSize)
 
 void MemoryStream::EnsureCapacity(const uint32_t totalSize)
 {
-	assert(totalSize > m_capacity);
+	assert(totalSize > _capacity);
 
 	if (totalSize >= std::numeric_limits<uint32_t>::max() / 2)
 	{
 		throw std::bad_alloc();
 	}
 
-	uint32_t newCapacity = m_capacity;
+	uint32_t newCapacity = _capacity;
 
 	do
 	{
@@ -140,26 +134,15 @@ void MemoryStream::EnsureCapacity(const uint32_t totalSize)
 	} while (newCapacity < totalSize);
 
 	uint8_t* newData = new uint8_t[newCapacity];
-	memcpy(newData, m_data, GetSize());
+	memcpy(newData, _data, GetSize());
 
-	if (m_capacity > sizeof(m_buffer))
+	if (_capacity > sizeof(_buffer))
 	{
-		delete[] m_data;
+		delete[] _data;
 	}
 
-	m_data = newData;
-	m_capacity = newCapacity;
-}
-
-std::wstring ReadWString(MemoryStream& stream)
-{
-	uint32_t size = 0;
-	stream.Read(sizeof(size), &size);
-	std::wstring result;
-
-	result.resize(size);
-	stream.Read(sizeof(wchar_t) * size, const_cast<wchar_t*>(result.data()));
-	return result;
+	_data = newData;
+	_capacity = newCapacity;
 }
 
 namespace

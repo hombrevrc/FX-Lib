@@ -25,12 +25,12 @@ namespace
 
 #endif
 
-SystemException::SystemException(const char* message) : std::runtime_error(message), m_errorCode(GetLastError())
+SystemException::SystemException(const char* message) : std::runtime_error(message), _errorCode(GetLastError())
 {
 	FormatMessage(message);
 }
 
-SystemException::SystemException(const std::string& message) : std::runtime_error(message), m_errorCode(GetLastError())
+SystemException::SystemException(const std::string& message) : std::runtime_error(message), _errorCode(GetLastError())
 {
 	FormatMessage(message.c_str());
 }
@@ -41,12 +41,12 @@ SystemException::~SystemException()
 
 char const* SystemException::what() const throw()
 {
-	return m_what.c_str();
+	return _what.c_str();
 }
 
 const uint32_t SystemException::GetErrorCode() const
 {
-	return m_errorCode;
+	return _errorCode;
 }
 
 #ifdef FX_LIB_WINDOWS
@@ -54,9 +54,9 @@ const uint32_t SystemException::GetErrorCode() const
 void SystemException::FormatMessage(const char* message)
 {
 	std::ostringstream stream;
-	stream << message << ". GetLastError() = " << m_errorCode;
+	stream << message << ". GetLastError() = " << _errorCode;
 	char* buffer = nullptr;
-	const DWORD length = FormatMessageA(cFormatMessageFlags, nullptr, m_errorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), reinterpret_cast<LPSTR>(&buffer), 0, nullptr);
+	const DWORD length = FormatMessageA(cFormatMessageFlags, nullptr, _errorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), reinterpret_cast<LPSTR>(&buffer), 0, nullptr);
 	if (length > 0)
 	{
 		try
@@ -68,7 +68,7 @@ void SystemException::FormatMessage(const char* message)
 		}
 		LocalFree(buffer);
 	}
-	m_what = stream.str();
+	_what = stream.str();
 }
 
 #endif
@@ -79,8 +79,8 @@ void SystemException::FormatMessage(const char* message)
 void SystemException::FormatMessage(const char* message)
 {
 	std::ostringstream stream;
-	stream << message << ". errno = " << m_errorCode;
-	m_what = stream.str();
+	stream << message << ". errno = " << _errorCode;
+	_what = stream.str();
 }
 
 #endif

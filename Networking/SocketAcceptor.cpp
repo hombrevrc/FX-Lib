@@ -19,7 +19,11 @@ namespace
 		int mode = INADDR_ANY;
 		if (localhostOnly)
 		{
-			mode = inet_addr("127.0.0.1");
+			int status = inet_pton(AF_INET, "127.0.0.1", &mode);
+			if (SOCKET_ERROR == status)
+			{
+				throw SystemException("Couldn't get IP address from 127.0.0.1");
+			}
 		}
 
 		int status = result.Bind(port, mode);

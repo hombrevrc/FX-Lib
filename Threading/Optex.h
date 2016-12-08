@@ -4,11 +4,24 @@
 
 #pragma once
 
+#include "SysSemaphore.h"
+
 class Optex
 {
 public:
-	Optex();
+	Optex(const std::tstring& name);
 	Optex(const Optex&) = delete;
 	Optex& operator = (const Optex&) = delete;
-	~Optex();
+
+public:
+	static std::wstring MakeFullname(const std::wstring& name);
+	static uint32_t SharedMemorySize();
+
+public:
+	void lock();
+	void unlock();
+
+private:
+	SharedMemory m_memory;
+	SysSemaphore m_event;
 };
