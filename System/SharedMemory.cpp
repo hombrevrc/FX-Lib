@@ -118,6 +118,6 @@ void SharedMemory::Finalize()
 
 std::wstring SharedMemory::MakeFullname(const std::wstring& name)
 {
-	return name + L"_memory";
+	return L"Global\\" + name + L"_memory";
 }
 

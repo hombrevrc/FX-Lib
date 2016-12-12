@@ -85,7 +85,7 @@ bool SysSemaphore::AcquireInMs(const uint32_t timeoutInMs)
 
 std::wstring SysSemaphore::MakeFullname(const std::wstring& name)
 {
-	std::wstring result = name + L"_semaphore";
+	std::wstring result = L"Global\\" + name + L"_semaphore";
 	return result;
 }
 
