@@ -47,18 +47,15 @@ namespace
 	}
 }
 
-Optex::Optex(const std::tstring& name) : m_memory(MakeFullname(name), sizeof(OptexData)), m_event(MakeFullname(name), 0, 1)
+Optex::Optex(const std::tstring& name, void* security /* = nullptr */) :
+	m_memory(MakeFullname(name), sizeof(OptexData), SharedMemoryAccess::ReadAndWrite, security),
+	m_event(MakeFullname(name), 0, 1, security)
 {
 }
 
 std::wstring Optex::MakeFullname(const std::wstring& name)
 {
 	return name + L"_optex";
-}
-
-uint32_t Optex::SharedMemorySize()
-{
-	return sizeof(OptexData);
 }
 
 void Optex::lock()

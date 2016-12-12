@@ -28,14 +28,14 @@ SharedMemory& SharedMemory::operator=(SharedMemory&& arg)
 	return *this;
 }
 
-SharedMemory::SharedMemory(const std::string& name, const uint32_t sizeInBytes, SharedMemoryAccess access /*= SharedMemoryAccess::ReadAndWrite*/)
+SharedMemory::SharedMemory(const std::string& name, const uint32_t sizeInBytes, SharedMemoryAccess access /* = SharedMemoryAccess::ReadAndWrite */, void* security /* = nullptr */)
 {
-	Construct(name, sizeInBytes, access);
+	Construct(name, sizeInBytes, access, security);
 }
 
-SharedMemory::SharedMemory(const std::wstring& name, const uint32_t sizeInBytes, SharedMemoryAccess access /*= SharedMemoryAccess::ReadAndWrite*/)
+SharedMemory::SharedMemory(const std::wstring& name, const uint32_t sizeInBytes, SharedMemoryAccess access /* = SharedMemoryAccess::ReadAndWrite */, void* security /* = nullptr */)
 {
-	Construct(name, sizeInBytes, access);
+	Construct(name, sizeInBytes, access, security);
 }
 
 SharedMemory::~SharedMemory()
@@ -43,13 +43,13 @@ SharedMemory::~SharedMemory()
 	Finalize();
 }
 
-void SharedMemory::Construct(const std::string& name, const uint32_t sizeInBytes, SharedMemoryAccess access /*= SharedMemoryAccess::ReadAndWrite*/)
+void SharedMemory::Construct(const std::string& name, const uint32_t sizeInBytes, SharedMemoryAccess access /* = SharedMemoryAccess::ReadAndWrite */, void* security /* = nullptr */)
 {
 	std::wstring nameTemp = CA2W(name.c_str());
-	Construct(nameTemp, sizeInBytes, access);
+	Construct(nameTemp, sizeInBytes, access, security);
 }
 
-void SharedMemory::Construct(const std::wstring& name, const uint32_t sizeInBytes, SharedMemoryAccess access /*= SharedMemoryAccess::ReadAndWrite*/)
+void SharedMemory::Construct(const std::wstring& name, const uint32_t sizeInBytes, SharedMemoryAccess access /* = SharedMemoryAccess::ReadAndWrite */, void* security /* = nullptr */)
 {
 	Finalize();
 
@@ -57,7 +57,7 @@ void SharedMemory::Construct(const std::wstring& name, const uint32_t sizeInByte
 
 	if ((SharedMemoryAccess::Write == access) || (SharedMemoryAccess::ReadAndWrite == access))
 	{
-		_file = CreateFileMapping(INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE, 0, static_cast<DWORD>(sizeInBytes), fullName.c_str());
+		_file = CreateFileMapping(INVALID_HANDLE_VALUE, reinterpret_cast<LPSECURITY_ATTRIBUTES>(security), PAGE_READWRITE, 0, static_cast<DWORD>(sizeInBytes), fullName.c_str());
 	}
 	else if(SharedMemoryAccess::Read == access)
 	{

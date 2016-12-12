@@ -8,40 +8,40 @@
 
 SysSemaphore::SysSemaphore()
 {
-	Construct(0, std::numeric_limits<int32_t>::max(), nullptr);
+	Construct(0, std::numeric_limits<int32_t>::max(), nullptr, nullptr);
 }
 
 SysSemaphore::SysSemaphore(const int32_t maxCount)
 {
-	Construct(0, maxCount, nullptr);
+	Construct(0, maxCount, nullptr, nullptr);
 }
 
 SysSemaphore::SysSemaphore(const int32_t initialCount, const int32_t maxCount)
 {
-	Construct(initialCount, maxCount, nullptr);
+	Construct(initialCount, maxCount, nullptr, nullptr);
 }
 
-SysSemaphore::SysSemaphore(const std::string& name, const int32_t initialCount, const int32_t maxCount)
+SysSemaphore::SysSemaphore(const std::string& name, const int32_t initialCount, const int32_t maxCount, void* security /* = nullptr */)
 {
 	std::wstring nameTemp = CA2W(name.c_str());
-	Construct(initialCount, maxCount, nameTemp.c_str());
+	Construct(initialCount, maxCount, nameTemp.c_str(), security);
 }
 
-SysSemaphore::SysSemaphore(const std::wstring& name, const int32_t initialCount, const int32_t maxCount)
+SysSemaphore::SysSemaphore(const std::wstring& name, const int32_t initialCount, const int32_t maxCount, void* security /* = nullptr */)
 {
-	Construct(initialCount, maxCount, name.c_str());
+	Construct(initialCount, maxCount, name.c_str(), security);
 }
 
-void SysSemaphore::Construct(const int32_t initialCount, const int32_t maxCount, const wchar_t* pName)
+void SysSemaphore::Construct(const int32_t initialCount, const int32_t maxCount, const wchar_t* pName, void* security)
 {
 	if (nullptr != pName)
 	{
 		std::wstring fullName = MakeFullname(pName);
-		m_handle = CreateSemaphore(nullptr, initialCount, maxCount, fullName.c_str());
+		m_handle = CreateSemaphore(reinterpret_cast<LPSECURITY_ATTRIBUTES>(security), initialCount, maxCount, fullName.c_str());
 	}
 	else
 	{
-		m_handle = CreateSemaphore(nullptr, initialCount, maxCount, pName);
+		m_handle = CreateSemaphore(reinterpret_cast<LPSECURITY_ATTRIBUTES>(security), initialCount, maxCount, pName);
 	}
 
 

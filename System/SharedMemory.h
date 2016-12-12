@@ -14,16 +14,16 @@ public:
 	SharedMemory& operator = (SharedMemory&& arg);
 	SharedMemory(const SharedMemory& arg) = delete;
 	SharedMemory& operator = (const SharedMemory& arg) = delete;
-	SharedMemory(const std::string& name, const uint32_t sizeInBytes, SharedMemoryAccess access = SharedMemoryAccess::ReadAndWrite);
-	SharedMemory(const std::wstring& name, const uint32_t sizeInBytes, SharedMemoryAccess access = SharedMemoryAccess::ReadAndWrite);
+	SharedMemory(const std::string& name, const uint32_t sizeInBytes, SharedMemoryAccess access = SharedMemoryAccess::ReadAndWrite, void* security = nullptr);
+	SharedMemory(const std::wstring& name, const uint32_t sizeInBytes, SharedMemoryAccess access = SharedMemoryAccess::ReadAndWrite, void* security = nullptr);
 	~SharedMemory();
 
 public:
-	void Construct(const std::string& name, const uint32_t sizeInBytes, SharedMemoryAccess access = SharedMemoryAccess::ReadAndWrite);
-	void Construct(const std::wstring& name, const uint32_t sizeInBytes, SharedMemoryAccess access = SharedMemoryAccess::ReadAndWrite);
+	void Construct(const std::string& name, const uint32_t sizeInBytes, SharedMemoryAccess access = SharedMemoryAccess::ReadAndWrite, void* security = nullptr);
+	void Construct(const std::wstring& name, const uint32_t sizeInBytes, SharedMemoryAccess access = SharedMemoryAccess::ReadAndWrite, void* security = nullptr);
 	void Finalize();
 
-public:
+private:
 	static std::wstring MakeFullname(const std::wstring& name);
 
 private:

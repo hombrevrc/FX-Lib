@@ -10,8 +10,8 @@ public:
 	SysSemaphore();
 	SysSemaphore(const int32_t maxCount);
 	SysSemaphore(const int32_t initialCount, const int32_t maxCount);
-	SysSemaphore(const std::string& name, const int32_t initialCount, const int32_t maxCount);
-	SysSemaphore(const std::wstring& name, const int32_t initialCount, const int32_t maxCount);
+	SysSemaphore(const std::string& name, const int32_t initialCount, const int32_t maxCount, void* security = nullptr);
+	SysSemaphore(const std::wstring& name, const int32_t initialCount, const int32_t maxCount, void* security = nullptr);
 	SysSemaphore(const SysSemaphore&) = delete;
 	SysSemaphore& operator = (const SysSemaphore&) = delete;
 	~SysSemaphore();
@@ -23,11 +23,11 @@ public:
 	bool AcquireInMs(const std::chrono::milliseconds timeoutInMs);
 	bool AcquireInMs(const uint32_t timeoutInMs);
 
-public:
+private:
 	static std::wstring MakeFullname(const std::wstring& name);
 
 private:
-	void Construct(const int32_t initialCount, const int32_t maxCount, const wchar_t* pName);
+	void Construct(const int32_t initialCount, const int32_t maxCount, const wchar_t* pName, void* security);
 
 private:
 	HANDLE m_handle;
