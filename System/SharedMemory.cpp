@@ -88,9 +88,10 @@ void SharedMemory::Construct(const std::wstring& name, const uint32_t sizeInByte
 	}
 	if (nullptr == _data)
 	{
+		SystemException ex("SharedMemory::Construct(): couldn't create a new view of file");
 		CloseHandle(_file);
 		_file = nullptr;
-		throw SystemException("SharedMemory::Construct(): couldn't create a new view of file");
+		throw ex;
 	}
 	_size = sizeInBytes;
 }
