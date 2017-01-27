@@ -95,6 +95,9 @@
     <ClInclude Include="SysSemaphore.h">
       <Filter>_Headers</Filter>
     </ClInclude>
+    <ClInclude Include="ThreadContextSwitches.h">
+      <Filter>_Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -143,6 +146,9 @@
       <Filter>_Sources</Filter>
     </ClCompile>
     <ClCompile Include="SysSemaphore.cpp">
+      <Filter>_Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadContextSwitches.cpp">
       <Filter>_Sources</Filter>
     </ClCompile>
   </ItemGroup>

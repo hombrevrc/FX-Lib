@@ -28,6 +28,7 @@
 #include "SystemException.h"
 #include "SystemClock.h"
 #include "DateTime.h"
+#include "PerfCalc.h"
 
 #ifdef FX_LIB_LINUX
 #include "Types.h"

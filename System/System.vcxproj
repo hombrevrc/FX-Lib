@@ -169,6 +169,7 @@
     <ClInclude Include="Functions.Windows.hpp" />
     <ClInclude Include="MemoryStream.h" />
     <ClInclude Include="Nullable.h" />
+    <ClInclude Include="PerfCalc.h" />
     <ClInclude Include="Sal.h" />
     <ClInclude Include="SharedMemory.h" />
     <ClInclude Include="SharedMemoryAccess.h" />
@@ -193,6 +194,7 @@
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="Functions.cpp" />
     <ClCompile Include="MemoryStream.cpp" />
+    <ClCompile Include="PerfCalc.cpp" />
     <ClCompile Include="SharedMemory.cpp" />
     <ClCompile Include="SharedMemoryAccess.cpp" />
     <ClCompile Include="stdafx.cpp">

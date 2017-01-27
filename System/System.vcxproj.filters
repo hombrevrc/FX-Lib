@@ -134,6 +134,9 @@
     <ClInclude Include="SystemTimePoint.h">
       <Filter>DateTime\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="PerfCalc.h">
+      <Filter>_Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -177,6 +180,9 @@
     </ClCompile>
     <ClCompile Include="SystemTimePoint.cpp">
       <Filter>DateTime\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="PerfCalc.cpp">
+      <Filter>_Sources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
